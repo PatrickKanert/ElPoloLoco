@@ -2,8 +2,25 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: dimgrey;
+    margin: 0;
+}
+
+h1 {
+    margin: 16px;
 }
 
 canvas {
     background-color: black;
+    border-radius: 16px;
+    border: 6px solid sandybrown;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    transform: translate(0, -80px);
 }

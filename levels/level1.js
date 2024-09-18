@@ -6,6 +6,11 @@ const level1 = new Level(
         new SmallChicken(),
         new SmallChicken(),
         new SmallChicken(),
+        new Coin(),
+        new Coin(),
+        new Coin(),
+        new Coin(),
+        new Coin(),
         new Endboss(),
     ],
 
