@@ -1,16 +1,11 @@
-class MovableObject {
-    x = 50;
-    y = 250;
-    height = 200;
-    width = 100;
-    img;
-    imageChache = {};
-    currentImage = 0;
+class MovableObject extends DrawableObject {
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
     acceleration = 3;
     energy = 100;
+    coin = 0;
+    bottle = 0;
     lastHit = 0;
 
     applyGravity() {
@@ -22,29 +17,11 @@ class MovableObject {
         }, 1000 / 25);
     }
 
+
     isAboveGround() {
         return this.y < 250;
     }
 
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-
-    }
-
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof SmallChicken || this instanceof Coin) {
-            ctx.beginPath();
-            ctx.lineWidth = '3';
-            ctx.strokeStyle = 'red';
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        }
-    }
 
     isColliding(mo) {
         return this.x + this.width > mo.x &&
@@ -52,6 +29,7 @@ class MovableObject {
             this.x < mo.x &&
             this.y < mo.y + mo.height;
     }
+
 
     hit() {
         this.energy -= 5;
@@ -62,40 +40,37 @@ class MovableObject {
         }
     }
 
+
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; // Difference in ms
-        timepassed = timepassed /1000; // Difference in s
+        timepassed = timepassed / 1000; // Difference in s
         return timepassed < 0.5;
     }
+
 
     isDead() {
         return this.energy == 0;
     }
 
+
     playAnimation(images) {
         let i = this.currentImage % images.length;
         let path = images[i];
-        this.img = this.imageChache[path];
+        this.img = this.imageCache[path];
         this.currentImage++;
     }
 
-    loadImages(arr) {
-        arr.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            this.imageChache[path] = img;
-        });
-
-    }
 
     moveRight() {
         this.x += this.speed;
     }
 
+
     moveLeft() {
         this.x -= this.speed;
 
     }
+
 
     jump() {
         this.speedY = 30;

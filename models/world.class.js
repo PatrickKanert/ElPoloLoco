@@ -6,6 +6,9 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    healthstatusBar = new healthStatusBar();
+    coinStatusbar = new CoinStatusBar();
+    bottleStatusBar = new BottleStatusBar();
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -22,10 +25,15 @@ class World {
 
     checkCollisions() {
         setInterval(() => {
-            this.level.enemies.forEach( (enemy) => {
-               if (this.character.isColliding(enemy)) {
+            this.level.enemies.forEach((enemy) => {
+                if (this.character.isColliding(enemy)) {
                     this.character.hit();
-               }
+                    this.healthstatusBar.setPercentage(this.character.energy);
+                    this.coinStatusbar.setPercentage(this.character.coin);
+                    this.coinStatusbar.setPercentage(this.character.bottle);
+
+
+                }
             });
         }, 200);
     }
@@ -36,6 +44,17 @@ class World {
         this.ctx.translate(this.camera_x, 0);
 
         this.addObjectsToMap(this.level.backgroundObjects);
+        this.ctx.translate(-this.camera_x, 0);
+        // ------ Space for ficexd objects ------
+        this.addToMap(this.healthstatusBar);
+        this.addToMap(this.coinStatusbar);
+        this.addToMap(this.bottleStatusBar);
+
+
+
+
+        this.ctx.translate(this.camera_x, 0);
+
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
@@ -60,7 +79,7 @@ class World {
         if (mo.otherDirection) {
             this.flipImage(mo);
         }
-        
+
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
 
