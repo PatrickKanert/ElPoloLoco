@@ -98,4 +98,14 @@ class Character extends MovableObject {
             }
         }, 50);
     }
+
+    collectBottle() {
+        this.bottles++; // Erhöhe die Anzahl der Flaschen um 1
+        // Sicherstellen, dass die Statusleiste aktualisiert wird
+        this.world.bottleStatusBar.setPercentage(this.bottles); // Aktualisiere die Bottle-Statusleiste
+    }
+
+    collectCoins() {
+        this.coins++; // Erhöhe die Anzahl der Flaschen um 1
+    }
 }

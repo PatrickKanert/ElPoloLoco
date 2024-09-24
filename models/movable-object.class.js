@@ -4,8 +4,8 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 3;
     energy = 100;
-    coin = 0;
-    bottle = 0;
+    coins = 0;
+    bottles = 0;
     lastHit = 0;
 
     applyGravity() {
@@ -15,6 +15,15 @@ class MovableObject extends DrawableObject {
                 this.speedY -= this.acceleration;
             }
         }, 1000 / 25);
+    }
+
+
+    collectCoin() {
+        return this.coins += 1;
+    }
+
+    collectBottle() {
+        return this.bottles +=1;
     }
 
 

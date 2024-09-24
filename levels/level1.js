@@ -6,13 +6,16 @@ const level1 = new Level(
         new SmallChicken(),
         new SmallChicken(),
         new SmallChicken(),
-
-
         new Endboss(),
     ],
 
+    // Clouds bleiben in diesem Array
     [
-        new Cloud(),
+        new Cloud()
+    ],
+
+    // Neue collectibles Gruppe für Coins und Bottles
+    [
         new Coin(),
         new Coin(),
         new Coin(),
