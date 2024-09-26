@@ -54,6 +54,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.applyGravity();
         this.animate();
+
     }
 
     animate() {
@@ -108,4 +109,5 @@ class Character extends MovableObject {
     collectCoins() {
         this.coins++; // Erhöhe die Anzahl der Flaschen um 1
     }
+
 }

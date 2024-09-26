@@ -13,6 +13,10 @@ class MovableObject extends DrawableObject {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
+                if(world.character.y >= 250) {
+                    this.y = 250;
+                    this.speedY = 0; 
+                }
             }
         }, 1000 / 25);
     }
@@ -31,8 +35,12 @@ class MovableObject extends DrawableObject {
         if (this instanceof ThrowableObject) { // Throwable objects should always fall
             return true;
         } else {
-            return this.y < 250;
+            return this.y < 250 ;
         }
+    }
+
+    isFalling() {
+        return this.speedY < 0; // Prüft, ob der Charakter nach unten fällt
     }
 
 
@@ -87,5 +95,18 @@ class MovableObject extends DrawableObject {
 
     jump() {
         this.speedY = 30;
+    }
+    
+
+    kill() {
+        console.log('Chicken killed'); // Zum Testen, ob die Methode aufgerufen wird
+        this.isDead = true; // Markiere das Hühnchen als tot
+        this.speed = 0; // Stoppe die Bewegung des Hühnchens
+        this.playAnimation(this.IMAGES_DEAD); // Spiele die Sterbeanimation ab
+        
+        // Optional: Entferne das Hühnchen nach kurzer Zeit
+        setTimeout(() => {
+            this.y = 500; // Entferne das Hühnchen aus dem sichtbaren Bereich
+        }, 800);
     }
 }

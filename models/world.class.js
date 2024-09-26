@@ -28,7 +28,7 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
-        }, 200);
+        }, 1000 / 60);
     }
 
     checkThrowObjects() {
@@ -41,68 +41,69 @@ class World {
     }
 
     checkCollisions() {
-        // Check collision with enemies
+        // Check collision with enemies (specifically chickens)
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                this.character.hit();
+            if (this.character.isColliding(enemy) && this.character.isFalling()) {
+                console.log('Character jumped on the chicken');
+                enemy.kill(); // Hühnchen töten
+                this.character.jump(); // Charakter springt nach dem Töten erneut
+            } else if (this.character.isColliding(enemy)) {
+                console.log('Character hit by the chicken');
+                this.character.hit(); // Charakter wird verletzt, wenn er seitlich kollidiert
                 this.healthstatusBar.setPercentage(this.character.energy);
-                this.character.collectCoin();  // Erhöhe die Coin-Anzahl
-                this.bottleStatusBar.collectBottle;
+            }
+        });
 
-            }
-        });
-    
-        // Check collision with coins
+        // Überprüfe die Kollision mit Sammelobjekten (Münzen und Flaschen)
         this.level.collectibles.forEach((collectible, index) => {
-            if (collectible instanceof Coin && this.character.isColliding(collectible)) {
-                this.character.collectCoin();
-                this.coinStatusbar.setPercentage(this.character.coins);
-                this.level.collectibles.splice(index, 1);
-            }
-        });
-    
-        // Check collision with bottles
-        this.level.collectibles.forEach((collectible, index) => {
-            if (collectible instanceof Bottle && this.character.isColliding(collectible)) {
-                this.character.collectBottle();  // Increase the bottle count
-                this.bottleStatusBar.setPercentage(this.character.bottles);  // Update bottle status bar
-                this.level.collectibles.splice(index, 1);  // Remove collected bottle from the array
+            if (this.character.isColliding(collectible)) {
+                if (collectible instanceof Coin) {
+                    this.character.collectCoin(); // Münze sammeln
+                    this.coinStatusbar.setPercentage(this.character.coins); // Statusbalken für Münzen aktualisieren
+                    this.level.collectibles.splice(index, 1); // Entferne die gesammelte Münze aus dem Array
+                    console.log('Münze gesammelt');
+                } else if (collectible instanceof Bottle) {
+                    this.character.collectBottle();  // Anzahl der Flaschen erhöhen
+                    this.bottleStatusBar.setPercentage(this.character.bottles);  // Statusbalken für Flaschen aktualisieren
+                    this.level.collectibles.splice(index, 1);  // Entferne die gesammelte Flasche aus dem Array
+                    console.log('Flasche gesammelt');
+                }
             }
         });
     }
-    
 
-draw() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    
-    // Zeichne den Hintergrund
-    this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.level.backgroundObjects);
-    this.ctx.translate(-this.camera_x, 0);
-    
-    // ------ Space for fixed objects ------ 
-    // Stelle sicher, dass die Statusleisten hier gezeichnet werden
-    this.addToMap(this.healthstatusBar);
-    this.addToMap(this.coinStatusbar);
-    this.addToMap(this.bottleStatusBar);
-    
-    // Zeichne die anderen Objekte
-    this.ctx.translate(this.camera_x, 0);
-    this.addToMap(this.character);
-    this.addObjectsToMap(this.level.clouds);
-    this.addObjectsToMap(this.level.enemies);
-    this.addObjectsToMap(this.level.collectibles);
-    this.addObjectsToMap(this.throwableObjects);
-    
-    this.ctx.translate(-this.camera_x, 0);
-    
-    // Draw() wird immer wieder aufgerufen
-    let self = this;
-    requestAnimationFrame(function () {
-        self.draw();
-    });
-}
-    
+
+    draw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Zeichne den Hintergrund
+        this.ctx.translate(this.camera_x, 0);
+        this.addObjectsToMap(this.level.backgroundObjects);
+        this.ctx.translate(-this.camera_x, 0);
+
+        // ------ Space for fixed objects ------ 
+        // Stelle sicher, dass die Statusleisten hier gezeichnet werden
+        this.addToMap(this.healthstatusBar);
+        this.addToMap(this.coinStatusbar);
+        this.addToMap(this.bottleStatusBar);
+
+        // Zeichne die anderen Objekte
+        this.ctx.translate(this.camera_x, 0);
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.collectibles);
+        this.addObjectsToMap(this.throwableObjects);
+
+        this.ctx.translate(-this.camera_x, 0);
+
+        // Draw() wird immer wieder aufgerufen
+        let self = this;
+        requestAnimationFrame(function () {
+            self.draw();
+        });
+    }
+
 
     addObjectsToMap(objects) {
         objects.forEach(o => {
