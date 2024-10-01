@@ -10,6 +10,9 @@ class World {
     coinStatusbar = new CoinStatusBar();
     bottleStatusBar = new BottleStatusBar();
     throwableObjects = [];
+    dKeyPressed = false;
+
+
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -20,9 +23,11 @@ class World {
         this.run();
     }
 
+
     setWorld() {
         this.character.world = this;
     }
+
 
     run() {
         setInterval(() => {
@@ -31,30 +36,34 @@ class World {
         }, 1000 / 60);
     }
 
+
     checkThrowObjects() {
-        if (this.keyboard.D && this.character.bottles > 0) {  // Check if the player has bottles to throw
+        // Prüfen, ob die Taste D gedrückt wurde und der Charakter Flaschen hat
+        if (this.keyboard.D && !this.dKeyPressed && this.character.bottles > 0) {
             let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 60);
             this.throwableObjects.push(bottle);
-            this.character.bottles--;  // Reduce bottle count when thrown
-            this.bottleStatusBar.setPercentage(this.character.bottles);  // Update bottle status bar
+            this.character.bottles--;  // Reduziere die Anzahl der Flaschen
+            this.bottleStatusBar.setPercentage(this.character.bottles);  // Aktualisiere die Statusleiste
+
+            this.dKeyPressed = true;  // Merken, dass die Taste gedrückt wurde
+        }
+
+        // Wenn die Taste D losgelassen wird, setze den Zustand zurück
+        if (!this.keyboard.D) {
+            this.dKeyPressed = false;  // Zurücksetzen, um auf den nächsten Tastendruck zu warten
         }
     }
 
-    checkCollisions() {
-        // Check collision with enemies (specifically chickens)
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && this.character.isFalling()) {
-                console.log('Character jumped on the chicken');
-                enemy.kill(); // Hühnchen töten
-                this.character.jump(); // Charakter springt nach dem Töten erneut
-            } else if (this.character.isColliding(enemy)) {
-                console.log('Character hit by the chicken');
-                this.character.hit(); // Charakter wird verletzt, wenn er seitlich kollidiert
-                this.healthstatusBar.setPercentage(this.character.energy);
-            }
-        });
 
-        // Überprüfe die Kollision mit Sammelobjekten (Münzen und Flaschen)
+    checkCollisions() {
+        this.checkCharacterEnemyCollision();   // Kollision zwischen Charakter und Feinden
+        this.checkBottleEnemyCollision();      // Kollision zwischen Flaschen und Feinden
+        this.checkCollectibleCollision();      // Kollision mit Sammelobjekten
+        // this.checkBottleEndbossCollision();     // Kollision zwischen Flaschen und Endboss
+    }
+
+
+    checkCollectibleCollision() {
         this.level.collectibles.forEach((collectible, index) => {
             if (this.character.isColliding(collectible)) {
                 if (collectible instanceof Coin) {
@@ -68,6 +77,63 @@ class World {
                     this.level.collectibles.splice(index, 1);  // Entferne die gesammelte Flasche aus dem Array
                     console.log('Flasche gesammelt');
                 }
+            }
+        });
+    }
+
+
+    checkBottleEnemyCollision() {
+        this.throwableObjects.forEach((bottle, bottleIndex) => {
+            this.level.enemies.forEach((enemy) => {
+                if (bottle.isColliding(enemy)) {
+                    console.log('Bottle hit the chicken');
+                    enemy.kill(); // Hühnchen töten
+                    this.throwableObjects.splice(bottleIndex, 1); // Entferne die Flasche nach Kollision
+                }
+            });
+        });
+    }
+
+
+    // checkBottleEndbossCollision() {
+    //     if (!this.level) {
+    //         console.error('Level is not defined');
+    //         return;
+    //     }
+    //     if (!this.level.bottles) {
+    //         console.error('Bottles array is not defined');
+    //         return;
+    //     }
+        
+    //     this.level.bottles.forEach((bottle) => {
+    //         if (this.endboss.isColliding(bottle)) {
+    //             console.log('Bottle hit the endboss');
+    //             this.endboss.takeHit();
+    //             bottle.remove(); // Beispiel, um die Flasche zu entfernen
+    //         }
+    //     });
+    // }
+
+
+
+    checkCharacterEnemyCollision() {
+        this.level.enemies.forEach((enemy) => {
+            // Wenn das Hühnchen tot ist, ignoriere es
+            if (enemy.isDead) {
+                return; // Überspringe die weiteren Überprüfungen für dieses Hühnchen
+            }
+    
+            // Prüfe, ob der Charakter auf das Hühnchen springt
+            if (this.character.isColliding(enemy) && this.character.isFalling()) {
+                console.log('Character jumped on the chicken');
+                enemy.kill(); // Hühnchen töten
+                this.character.jump(); // Charakter springt nach dem Töten erneut
+            } 
+            // Prüfe, ob der Charakter seitlich mit dem Hühnchen kollidiert
+            else if (this.character.isColliding(enemy)) {
+                console.log('Character hit by the chicken');
+                this.character.hit(); // Charakter wird verletzt
+                this.healthstatusBar.setPercentage(this.character.energy);
             }
         });
     }

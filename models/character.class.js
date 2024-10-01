@@ -100,11 +100,25 @@ class Character extends MovableObject {
         }, 50);
     }
 
+    // Methode zum Sammeln der Flaschen
     collectBottle() {
         this.bottles++; // Erhöhe die Anzahl der Flaschen um 1
-        // Sicherstellen, dass die Statusleiste aktualisiert wird
         this.world.bottleStatusBar.setPercentage(this.bottles); // Aktualisiere die Bottle-Statusleiste
     }
+
+
+    // Methode zum Werfen der Flaschen
+    throwBottle() {
+        if (this.bottles > 0) { // Prüfen, ob Flaschen vorhanden sind
+            let bottle = new ThrowableObject(this.x, this.y); // Erstelle eine neue Flasche
+            bottle.throw(); // Werfe die Flasche
+            this.bottles--; // Reduziere die Anzahl der Flaschen
+            this.world.bottleStatusBar.setPercentage(this.bottles); // Aktualisiere die Statusleiste
+        } else {
+            console.log('Keine Flaschen mehr zum Werfen');
+        }
+    }
+
 
     collectCoins() {
         this.coins++; // Erhöhe die Anzahl der Flaschen um 1
