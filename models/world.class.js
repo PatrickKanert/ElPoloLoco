@@ -59,7 +59,7 @@ class World {
         this.checkCharacterEnemyCollision();   // Kollision zwischen Charakter und Feinden
         this.checkBottleEnemyCollision();      // Kollision zwischen Flaschen und Feinden
         this.checkCollectibleCollision();      // Kollision mit Sammelobjekten
-        // this.checkBottleEndbossCollision();     // Kollision zwischen Flaschen und Endboss
+        this.checkBottleEndbossCollision();     // Kollision zwischen Flaschen und Endboss
     }
 
 
@@ -95,27 +95,19 @@ class World {
     }
 
 
-    // checkBottleEndbossCollision() {
-    //     if (!this.level) {
-    //         console.error('Level is not defined');
-    //         return;
-    //     }
-    //     if (!this.level.bottles) {
-    //         console.error('Bottles array is not defined');
-    //         return;
-    //     }
+    checkBottleEndbossCollision() {
+        this.throwableObjects.forEach((bottle, bottleIndex) => {
+            if (bottle.isColliding(this.level.endboss)) {
+                console.log('Bottle hit the Endboss'); // Debug-Ausgabe
+                this.level.endboss.hitEndboss();
+                this.throwableObjects.splice(bottleIndex, 1); // Flasche entfernen
+            } else {
+                console.log('Bottle did not hit the Endboss'); // Debug-Ausgabe
+            }
+        });
+    }
+    
         
-    //     this.level.bottles.forEach((bottle) => {
-    //         if (this.endboss.isColliding(bottle)) {
-    //             console.log('Bottle hit the endboss');
-    //             this.endboss.takeHit();
-    //             bottle.remove(); // Beispiel, um die Flasche zu entfernen
-    //         }
-    //     });
-    // }
-
-
-
     checkCharacterEnemyCollision() {
         this.level.enemies.forEach((enemy) => {
             // Wenn das Hühnchen tot ist, ignoriere es
@@ -158,6 +150,7 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.level.collectibles);
         this.addObjectsToMap(this.throwableObjects);
 
