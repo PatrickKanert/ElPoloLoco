@@ -10,7 +10,7 @@ const level1 = new Level(
     ],
 
     // Endboss (sollte ein einzelnes Objekt sein, nicht ein Array)
-    [new Endboss()],
+    new Endboss(),
 
     // Wolken
     [
@@ -24,6 +24,9 @@ const level1 = new Level(
         new Coin(),
         new Coin(),
         new Coin(),
+        new Bottle(),
+        new Bottle(),
+        new Bottle(),
         new Bottle(),
         new Bottle(),
         new Bottle(),

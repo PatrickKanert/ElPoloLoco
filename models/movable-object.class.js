@@ -8,14 +8,15 @@ class MovableObject extends DrawableObject {
     bottles = 0;
     lastHit = 0;
 
+
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
-                if(world.character.y >= 250) {
+                if (world.character.y >= 250) {
                     this.y = 250;
-                    this.speedY = 0; 
+                    this.speedY = 0;
                 }
             }
         }, 1000 / 25);
@@ -27,7 +28,7 @@ class MovableObject extends DrawableObject {
     }
 
     collectBottle() {
-        return this.bottles +=1;
+        return this.bottles += 1;
     }
 
 
@@ -35,7 +36,7 @@ class MovableObject extends DrawableObject {
         if (this instanceof ThrowableObject) { // Throwable objects should always fall
             return true;
         } else {
-            return this.y < 250 ;
+            return this.y < 250;
         }
     }
 
@@ -59,6 +60,21 @@ class MovableObject extends DrawableObject {
         } else {
             this.lastHit = new Date().getTime();
         }
+    }
+
+
+    takeDamagefromEndboss(amount) {
+        this.energy -= amount; // Reduziere die Energie des Charakters
+        if (this.energy <= 0) {
+            this.energy = 0;
+            this.die(); // Rufe die Methode zum Sterben des Charakters auf
+        }
+
+        // Zugriff auf die bereits existierende Statusleiste in 'world' und aktualisieren
+        world.healthstatusBar.setPercentage(this.energy); // Aktualisiert die Statusleiste
+
+        console.log(`Character took ${amount} damage! Energy left: ${this.energy}%`);
+
     }
 
 
@@ -96,17 +112,21 @@ class MovableObject extends DrawableObject {
     jump() {
         this.speedY = 30;
     }
-    
+
 
     kill() {
         console.log('Chicken killed'); // Zum Testen, ob die Methode aufgerufen wird
         this.isDead = true; // Markiere das Hühnchen als tot
         this.speed = 0; // Stoppe die Bewegung des Hühnchens
         this.playAnimation(this.IMAGES_DEAD); // Spiele die Sterbeanimation ab
-        
+
         // Optional: Entferne das Hühnchen nach kurzer Zeit
         setTimeout(() => {
             this.y = 500; // Entferne das Hühnchen aus dem sichtbaren Bereich
         }, 800);
+    }
+
+    die() {
+        console.log('Character is dead');
     }
 }

@@ -96,16 +96,15 @@ class World {
 
 
     checkBottleEndbossCollision() {
-        this.throwableObjects.forEach((bottle, bottleIndex) => {
+        this.throwableObjects.forEach((bottle, bottleIndex) => {   
             if (bottle.isColliding(this.level.endboss)) {
-                console.log('Bottle hit the Endboss'); // Debug-Ausgabe
+                console.log('Bottle hit the Endboss');
                 this.level.endboss.hitEndboss();
                 this.throwableObjects.splice(bottleIndex, 1); // Flasche entfernen
-            } else {
-                console.log('Bottle did not hit the Endboss'); // Debug-Ausgabe
-            }
+            } 
         });
     }
+    
     
         
     checkCharacterEnemyCollision() {
@@ -150,7 +149,7 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.endboss);
+        this.addToMap(this.level.endboss);
         this.addObjectsToMap(this.level.collectibles);
         this.addObjectsToMap(this.throwableObjects);
 
