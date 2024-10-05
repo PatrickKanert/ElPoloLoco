@@ -101,7 +101,10 @@ class Character extends MovableObject {
   throwBottle() {
     if (this.bottles > 0) {
       // Prüfen, ob Flaschen vorhanden sind
-      let bottle = new ThrowableObject(this.x, this.y); // Erstelle eine neue Flasche
+      // Setze die Geschwindigkeit der Flasche basierend auf der Blickrichtung des Charakters
+      let speedX = this.otherDirection ? -10 : 10; // Flasche fliegt nach links oder rechts
+      let bottle = new ThrowableObject(this.x, this.y, speedX); // Erstelle eine neue Flasche mit speedX
+
       bottle.throw(); // Werfe die Flasche
       this.bottles--; // Reduziere die Anzahl der Flaschen
       this.world.bottleStatusBar.setPercentage(this.bottles); // Aktualisiere die Statusleiste

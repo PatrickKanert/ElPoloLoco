@@ -10,7 +10,7 @@ class Endboss extends MovableObject {
   isWatching = true; // Anfangszustand: Beobachtungsmodus
   isWalking = false; // Gehmodus ist zu Beginn nicht aktiv
   isAttacking = false; // Zustand für den Angriff
-  statusbarVisible = false;
+  isFollowing = false;
 
   IMAGES_WALKING = [
     "img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -84,44 +84,26 @@ class Endboss extends MovableObject {
     }, 120); // Zeitintervall der Animation
   }
 
-  showStatusbar() {
-    this.statusbarVisible = true;
-  }
-
-  hideStatusbar() {
-    this.statusbarVisible = false;
-  }
-
   // Methode, um den Endboss auf den Charakter zulaufen zu lassen
   moveToCharacter(character) {
-    // Kein Laufen, wenn der Endboss tot, verletzt oder im Angriff ist
-    if (this.isDead || this.isHurt || this.isAttacking) return;
+    const distanceToCharacter = this.x - character.x;
 
-    // Berechne die Distanz zum Charakter
-    let distanceToCharacter = this.x - character.x;
-
-    // Überprüfe, ob der Charakter in Reichweite ist, um die Verfolgung zu aktivieren
-    if (Math.abs(distanceToCharacter) < 500) {
-      this.isFollowing = true; // Setze isFollowing auf true, um die Verfolgung zu aktivieren
-      this.showStatusbar();
-    }
-
-    // Führe die Bewegung nur aus, wenn isFollowing true ist
+    // Wenn der Boss bereits verfolgt, dann bewege ihn
     if (this.isFollowing) {
-      // Bestimme die Richtung und bewege den Endboss
       if (distanceToCharacter > 0) {
-        this.otherDirection = false; // Blickt nach links
+        this.otherDirection = true; // Blickt nach links
         this.isWalking = true; // Setze isWalking auf true
         this.moveLeft(); // Bewege nach links
       } else {
-        this.otherDirection = true; // Blickt nach rechts
+        this.otherDirection = false; // Blickt nach rechts
         this.isWalking = true; // Setze isWalking auf true
         this.moveRight(); // Bewege nach rechts
       }
-
-      // Wenn der Endboss den Charakter berührt, Angriff auslösen
-      if (this.isColliding(character)) {
-        this.attack(); // Angriff wird ausgeführt
+    } else {
+      // Der Boss verfolgt den Charakter nur, wenn er in Reichweite ist
+      if (Math.abs(distanceToCharacter) < 400) {
+        // Beispiel: 400 Pixel Reichweite
+        this.isFollowing = true; // Setze isFollowing auf true, um die Verfolgung zu aktivieren
       }
     }
   }
@@ -135,7 +117,7 @@ class Endboss extends MovableObject {
 
     // Sofort den Schaden zufügen, wenn der Endboss den Charakter trifft
     if (this.isColliding(world.character)) {
-      world.character.hitFromEndboss(19); // Charakter erleidet Schaden
+      world.character.takeDamagefromEndboss(15); // Charakter erleidet Schaden
       console.log(
         "Character hit by Endboss! Energy left: " + world.character.energy + "%"
       );
@@ -148,6 +130,19 @@ class Endboss extends MovableObject {
         this.isWalking = true; // Nach dem Angriff wieder in den Gehmodus wechseln
       }
     }, 500); // Dauer des Angriffs (z.B. 0,5 Sekunden)
+  }
+
+  hitEndboss() {
+    if (this.isDead) return; // Wenn der Endboss bereits tot ist, tue nichts
+    this.energy -= 20; // Reduziere die Energie um 20 bei jedem Treffer
+    if (this.energy <= 0) {
+      this.energy = 0;
+      this.isDead = true; // Markiere den Endboss als tot
+      this.dieEndboss(); // Rufe die Sterbemethode auf
+    } else {
+      this.showHurtAnimation(); // Spiele die "Schmerzen"-Animation ab
+      console.log(`Endboss hit! Energy left: ${this.energy}%`);
+    }
   }
 
   showHurtAnimation() {

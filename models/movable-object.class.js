@@ -7,6 +7,7 @@ class MovableObject extends DrawableObject {
   coins = 0;
   bottles = 0;
   lastHit = 0;
+  isHit = false;
 
   applyGravity() {
     setInterval(() => {
@@ -46,33 +47,54 @@ class MovableObject extends DrawableObject {
     return (
       this.x + this.width > mo.x &&
       this.y + this.height > mo.y &&
-      this.x < mo.x &&
+      this.x < mo.x + mo.width &&
       this.y < mo.y + mo.height
     );
   }
 
   hit() {
+    if (this.isHit) return; // Ignoriere den Treffer, wenn bereits verletzt
+    this.isHit = true; // Setze den Zustand auf verletzt
+
+    // Schaden zufügen
     this.energy -= 5;
+    if (this.energy < 0) {
+      this.energy = 0; // Energie auf 0 setzen, wenn sie negativ wird
+    } else {
+      this.lastHit = new Date().getTime(); // Zeit des letzten Treffers speichern
+    }
+
+    world.healthstatusBar.setPercentage(this.energy); // Aktualisiert die Statusleiste
+
+    // Timeout, um den Trefferstatus zurückzusetzen
+    setTimeout(() => {
+      this.isHit = false; // Zustand zurücksetzen nach der Verletzung
+    }, 300); // Zeit, nach der der Charakter erneut getroffen werden kann
+  }
+
+  hitEndboss() {
+    if (this.isDead) return; // Wenn der Endboss bereits tot ist, tue nichts
+    this.energy -= 15; // Reduziere die Energie um 20 bei jedem Treffer
+    if (this.energy <= 0) {
+      this.energy = 0;
+      this.isDead = true; // Markiere den Endboss als tot
+      this.dieEndboss(); // Rufe die Sterbemethode auf
+    } else {
+      this.showHurtAnimation(); // Spiele die "Schmerzen"-Animation ab
+      console.log(`Endboss hit! Energy left: ${this.energy}%`);
+    }
+    world.endbossStatusBar.setPercentage(this.energy);
+  }
+
+  hitFromEndboss(amount) {
+    this.energy -= amount;
     if (this.energy < 0) {
       this.energy = 0;
     } else {
       this.lastHit = new Date().getTime();
     }
-  }
 
-  takeDamagefromEndboss(amount) {
-    this.energy -= amount; // Reduziere die Energie des Charakters
-    if (this.energy <= 0) {
-      this.energy = 0;
-      this.die(); // Rufe die Methode zum Sterben des Charakters auf
-    }
-
-    // Zugriff auf die bereits existierende Statusleiste in 'world' und aktualisieren
     world.healthstatusBar.setPercentage(this.energy); // Aktualisiert die Statusleiste
-
-    console.log(
-      `Character took ${amount} damage! Energy left: ${this.energy}%`
-    );
   }
 
   isHurt() {

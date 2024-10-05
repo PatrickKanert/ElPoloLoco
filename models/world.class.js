@@ -9,6 +9,7 @@ class World {
   healthstatusBar = new healthStatusBar();
   coinStatusbar = new CoinStatusBar();
   bottleStatusBar = new BottleStatusBar();
+  endbossStatusBar = new EndbossStatusBar();
   throwableObjects = [];
   dKeyPressed = false;
 
@@ -116,7 +117,7 @@ class World {
       else if (this.character.isColliding(enemy)) {
         console.log("Character hit by the chicken");
         this.character.hit(); // Charakter wird verletzt
-        this.healthstatusBar.setPercentage(this.character.energy);
+        console.log(this.character.energy);
       }
     });
   }
@@ -129,6 +130,10 @@ class World {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.ctx.translate(-this.camera_x, 0);
 
+    if (this.level.endboss.statusbarVisible) {
+      this.addToMap(this.endbossStatusBar);
+    }
+
     // ------ Space for fixed objects ------
     // Stelle sicher, dass die Statusleisten hier gezeichnet werden
     this.addToMap(this.healthstatusBar);
@@ -140,6 +145,9 @@ class World {
     this.addToMap(this.character);
     this.addObjectsToMap(this.level.clouds);
     this.addObjectsToMap(this.level.enemies);
+    if (this.level.endboss.statusbarVisible) {
+      this.addToMap(this.level.endboss); // Zeichne den Endboss, wenn sichtbar
+    }
     this.addToMap(this.level.endboss);
     this.addObjectsToMap(this.level.collectibles);
     this.addObjectsToMap(this.throwableObjects);
