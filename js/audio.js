@@ -1,3 +1,9 @@
 let jumpSound = new Audio("audio/jump.mp3");
 let glassSound = new Audio("audio/glass.mp3");
 let throwSound = new Audio("audio/throw.mp3");
+let chickenSound = new Audio("audio/chicken.mp3");
+let playSound = new Audio("audio/playsound.mp3");
+let runningSound = new Audio("audio/running.mp3");
+let winSound = new Audio("audio/win2.mp3");
+let loseSound = new Audio("audio/lose.mp3");
+let collect = new Audio("audio/collect_coin.mp3");

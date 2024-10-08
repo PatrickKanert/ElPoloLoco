@@ -73,10 +73,12 @@ class World {
       if (this.character.isColliding(collectible)) {
         if (collectible instanceof Coin) {
           this.character.collectCoin(); // Münze sammeln
+          collect.play();
           this.coinStatusbar.setPercentage(this.character.coins); // Statusbalken für Münzen aktualisieren
           this.level.collectibles.splice(index, 1); // Entferne die gesammelte Münze aus dem Array
           console.log("Münze gesammelt");
         } else if (collectible instanceof Bottle) {
+          collect.play();
           this.character.collectBottle(); // Anzahl der Flaschen erhöhen
           this.bottleStatusBar.setPercentage(this.character.bottles); // Statusbalken für Flaschen aktualisieren
           this.level.collectibles.splice(index, 1); // Entferne die gesammelte Flasche aus dem Array
