@@ -46,7 +46,7 @@ class ThrowableObject extends MovableObject {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
       } else {
-        this.land(); // Wenn die Flasche den Boden erreicht, führe Landungslogik aus
+        this.bottleLand(); // Wenn die Flasche den Boden erreicht, führe Landungslogik aus
       }
     }, 1000 / 25);
   }
@@ -56,7 +56,7 @@ class ThrowableObject extends MovableObject {
     return this.y < this.groundLevel;
   }
 
-  land() {
+  bottleLand() {
     clearInterval(this.rotationInterval); // Stoppe die Flugbewegung
     clearInterval(this.gravityInterval); // Stoppe die Schwerkraft
 
