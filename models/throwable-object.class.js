@@ -22,22 +22,23 @@ class ThrowableObject extends MovableObject {
     this.width = 50;
     this.loadImages(this.IMAGES_BOTTLE_ROTATION);
     this.loadImages(this.IMAGES_BOTTLE_SPLASH);
+    this.isHit = false;
     this.throw();
   }
 
   throw() {
     this.speedY = 30; // Anfangsgeschwindigkeit der Flasche nach oben
     this.applyGravityForBottle(); // Wende Schwerkraft auf die Flasche an
-
+    throwSound.play();
     let direction = world.character.otherDirection ? -1 : 1; // Blickrichtung des Charakters (links = -1, rechts = 1)
 
     this.rotationInterval = setInterval(() => {
-      this.x += 12 * direction; // Bewege die Flasche nach links oder rechts
+      this.x += 8 * direction; // Bewege die Flasche nach links oder rechts
 
       if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_BOTTLE_ROTATION); // Spiele Rotationsanimation ab
       }
-    }, 25);
+    }, 1000 / 60);
   }
 
   applyGravityForBottle() {
@@ -59,7 +60,7 @@ class ThrowableObject extends MovableObject {
   bottleLand() {
     clearInterval(this.rotationInterval); // Stoppe die Flugbewegung
     clearInterval(this.gravityInterval); // Stoppe die Schwerkraft
-
+    glassSound.play();
     setInterval(() => {
       this.playAnimation(this.IMAGES_BOTTLE_SPLASH); // Spiele Splash-Animation ab
     }, 40);

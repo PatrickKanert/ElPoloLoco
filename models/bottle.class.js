@@ -37,17 +37,4 @@ class Bottle extends MovableObject {
       this.playAnimation(this.IMAGES_BOTTLE);
     }, 350);
   }
-
-  land() {
-    clearInterval(this.rotationInterval); // Stoppe die Flugbewegung
-    clearInterval(this.gravityInterval); // Stoppe die Schwerkraft
-
-    setInterval(() => {
-      this.playAnimation(this.IMAGES_BOTTLE_SPLASH); // Spiele Splash-Animation ab
-    }, 40);
-
-    setTimeout(() => {
-      world.throwableObjects.splice(world.bottleIndex, 1); // Entferne die Flasche nach Kollision
-    }, 400); // Warte 600ms (Dauer der Splash-Animation)
-  }
 }

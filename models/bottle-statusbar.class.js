@@ -21,7 +21,7 @@ class BottleStatusBar extends DrawableObject {
   }
 
   setPercentage(bottles) {
-    this.percentage = bottles * 20; // Set percentage based on number of bottles
+    this.percentage = bottles * 10; // Set percentage based on number of bottles
     this.percentage = Math.min(this.percentage, 100); // Cap at 100%
     let path = this.IMAGES_BOTTLE[this.resolveImageIndex()];
     this.img = this.imageCache[path];

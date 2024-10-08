@@ -36,15 +36,23 @@ class World {
   checkThrowObjects() {
     // Prüfen, ob die Taste D gedrückt wurde und der Charakter Flaschen hat
     if (this.keyboard.D && !this.dKeyPressed && this.character.bottles > 0) {
+      this.dKeyPressed = true; // Merken, dass die Taste gedrückt wurde
+
+      // Erstelle die Flasche und füge sie der Liste der Wurfobjekte hinzu
       let bottle = new ThrowableObject(
         this.character.x + 38,
         this.character.y + 60
       );
       this.throwableObjects.push(bottle);
-      this.character.bottles--; // Reduziere die Anzahl der Flaschen
+
+      // Reduziere die Anzahl der Flaschen
+      this.character.bottles--;
       this.bottleStatusBar.setPercentage(this.character.bottles); // Aktualisiere die Statusleiste
 
-      this.dKeyPressed = true; // Merken, dass die Taste gedrückt wurde
+      // Setze einen Timeout, um den Wurf-Cooldown zu verwalten
+      setTimeout(() => {
+        this.dKeyPressed = false; // Zurücksetzen, um auf den nächsten Tastendruck zu warten
+      }, 500); // Cooldown von 500ms
     }
 
     // Wenn die Taste D losgelassen wird, setze den Zustand zurück
