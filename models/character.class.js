@@ -1,6 +1,34 @@
 class Character extends MovableObject {
   speed = 10;
   y = 250;
+  lastMoveTime = Date.now();
+  idleTimeout = 10000;
+
+  IMAGES_IDLE = [
+    "img/2_character_pepe/1_idle/idle/I-1.png",
+    "img/2_character_pepe/1_idle/idle/I-2.png",
+    "img/2_character_pepe/1_idle/idle/I-3.png",
+    "img/2_character_pepe/1_idle/idle/I-4.png",
+    "img/2_character_pepe/1_idle/idle/I-5.png",
+    "img/2_character_pepe/1_idle/idle/I-6.png",
+    "img/2_character_pepe/1_idle/idle/I-7.png",
+    "img/2_character_pepe/1_idle/idle/I-8.png",
+    "img/2_character_pepe/1_idle/idle/I-9.png",
+    "img/2_character_pepe/1_idle/idle/I-10.png",
+  ];
+
+  IMAGES_LONG_IDLE = [
+    "img/2_character_pepe/1_idle/long_idle/I-11.png",
+    "img/2_character_pepe/1_idle/long_idle/I-12.png",
+    "img/2_character_pepe/1_idle/long_idle/I-13.png",
+    "img/2_character_pepe/1_idle/long_idle/I-14.png",
+    "img/2_character_pepe/1_idle/long_idle/I-15.png",
+    "img/2_character_pepe/1_idle/long_idle/I-16.png",
+    "img/2_character_pepe/1_idle/long_idle/I-17.png",
+    "img/2_character_pepe/1_idle/long_idle/I-18.png",
+    "img/2_character_pepe/1_idle/long_idle/I-19.png",
+    "img/2_character_pepe/1_idle/long_idle/I-20.png",
+  ];
 
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
@@ -43,7 +71,9 @@ class Character extends MovableObject {
   walking_sound = new Audio("audio/running.mp3");
 
   constructor() {
-    super().loadImage("img/2_character_pepe/2_walk/W-21.png");
+    super().loadImage(this.IMAGES_IDLE[0]);
+    this.loadImages(this.IMAGES_IDLE);
+    this.loadImages(this.IMAGES_LONG_IDLE);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_HURT);
@@ -52,65 +82,73 @@ class Character extends MovableObject {
     this.animate();
   }
 
+  // Haupt-Animate-Funktion, die nur noch für die regelmäßigen Aufrufe verantwortlich ist
   animate() {
-    setInterval(() => {
-      this.walking_sound.pause();
+    setInterval(() => this.handleMovement(), 1000 / 60);
+    setInterval(() => this.handleAnimation(), 100);
+  }
 
-      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-        this.moveRight();
-        this.walking_sound.play();
-        this.otherDirection = false;
-      }
+  // Bewegungslogik in einer eigenen Methode
+  handleMovement() {
+    this.walking_sound.pause();
 
-      if (this.world.keyboard.LEFT && this.x > 0) {
-        this.moveLeft();
-        this.walking_sound.play();
-        this.otherDirection = true;
-      }
+    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+      this.moveRight();
+      this.walking_sound.play();
+      this.otherDirection = false;
+      this.updateLastMoveTime(); // Bewegung erkannt, Zeit aktualisieren
+    }
 
-      if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-        this.jump();
-      }
+    if (this.world.keyboard.LEFT && this.x > 0) {
+      this.moveLeft();
+      this.walking_sound.play();
+      this.otherDirection = true;
+      this.updateLastMoveTime(); // Bewegung erkannt, Zeit aktualisieren
+    }
 
-      this.world.camera_x = -this.x + 100;
-    }, 1000 / 60);
+    if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+      this.jump();
+      this.updateLastMoveTime(); // Sprung erkannt, Zeit aktualisieren
+    }
 
-    setInterval(() => {
-      if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
-      } else if (this.isHurt()) {
-        this.playAnimation(this.IMAGES_HURT);
-      } else if (this.isAboveGround()) {
-        this.playAnimation(this.IMAGES_JUMPING);
+    // Kamera nachführen
+    this.world.camera_x = -this.x + 100;
+  }
+
+  // Animationslogik in einer eigenen Methode
+  handleAnimation() {
+    if (this.isDead()) {
+      this.playAnimation(this.IMAGES_DEAD);
+    } else if (this.isHurt()) {
+      this.playAnimation(this.IMAGES_HURT);
+    } else if (this.isAboveGround()) {
+      this.playAnimation(this.IMAGES_JUMPING);
+    } else {
+      const timeSinceLastMove = Date.now() - this.lastMoveTime;
+
+      // Long Idle Animation nach Inaktivität
+      if (timeSinceLastMove >= this.idleTimeout) {
+        this.playAnimation(this.IMAGES_LONG_IDLE);
       } else {
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-          //Walk animation
-          this.playAnimation(this.IMAGES_WALKING);
-        }
+        this.playAnimation(this.IMAGES_IDLE);
       }
-    }, 50);
+
+      // Walk-Animation bei Bewegung
+      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+        this.playAnimation(this.IMAGES_WALKING);
+      }
+    }
+  }
+
+  // Methode zum Aktualisieren der letzten Bewegung
+  updateLastMoveTime() {
+    this.lastMoveTime = Date.now(); // Setzt den Zeitstempel auf den aktuellen Zeitpunkt
   }
 
   // Methode zum Sammeln der Flaschen
   collectBottle() {
     this.bottles++; // Erhöhe die Anzahl der Flaschen um 1
     this.world.bottleStatusBar.setPercentage(this.bottles); // Aktualisiere die Bottle-Statusleiste
-  }
-
-  // Methode zum Werfen der Flaschen
-  throwBottle() {
-    if (this.bottles > 0) {
-      // Prüfen, ob Flaschen vorhanden sind
-      // Setze die Geschwindigkeit der Flasche basierend auf der Blickrichtung des Charakters
-      let speedX = this.otherDirection ? -10 : 10; // Flasche fliegt nach links oder rechts
-      let bottle = new ThrowableObject(this.x, this.y, speedX); // Erstelle eine neue Flasche mit speedX
-
-      bottle.throw(); // Werfe die Flasche
-      this.bottles--; // Reduziere die Anzahl der Flaschen
-      this.world.bottleStatusBar.setPercentage(this.bottles); // Aktualisiere die Statusleiste
-    } else {
-      console.log("Keine Flaschen mehr zum Werfen");
-    }
   }
 
   collectCoins() {

@@ -37,7 +37,7 @@ class World {
     // Prüfen, ob die Taste D gedrückt wurde und der Charakter Flaschen hat
     if (this.keyboard.D && !this.dKeyPressed && this.character.bottles > 0) {
       let bottle = new ThrowableObject(
-        this.character.x + 50,
+        this.character.x + 38,
         this.character.y + 60
       );
       this.throwableObjects.push(bottle);
