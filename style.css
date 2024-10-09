@@ -1,11 +1,14 @@
 body {
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-around;
     background-color: dimgrey;
     margin: 0;
     background-image: url(./img/background.png);
     background-size: cover;
+    background-position: center;
 }
 
 h1 {
@@ -14,6 +17,7 @@ h1 {
     color: darkred;
     font-size: 56px;
     font-weight: normal;
+    text-shadow: 4px 2px 2px rgb(207, 166, 2);
 }
 
 canvas {
@@ -22,11 +26,114 @@ canvas {
     border: 6px solid sandybrown;
 }
 
+.d-none {
+    display: none;
+    pointer-events: none;
+}
+
+.hidden {
+    display: none;
+}
+
 .content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    transform: translate(0, -80px);
+    transform: translate(0, -130px);
+}
+
+
+.start-screen {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column-reverse;
+    width: 720px;
+    height: 480px;
+    border-radius: 8px;
+    background-image: url(./img/9_intro_outro_screens/start/startscreen_1.png);
+    background-size: 720px 480px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 1s ease-in-out;
+    opacity: 1;
+
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+.start-screen img {
+    width: 720px;
+    height: 480px;
+    border-radius: 8px;
+
+}
+
+.position-button {
+    position: absolute;
+    bottom: 200px;
+    left: 277px;
+}
+
+.start-button {
+    padding-top: 16px;
+}
+
+.btn {
+    border-radius: 16px;
+    text-shadow: 1px 1px 3px #666666;
+    font-family: "Frijole", system-ui;
+    color: #000000;
+    font-size: 20px;
+    background: #FF9600;
+    padding: 5px 10px;
+    border: solid #000000 4px;
+    text-decoration: none;
+    transition: transform 100ms ease-in, background 100ms ease-in;
+}
+
+.btn:hover {
+    background: #f59003;
+    text-decoration: none;
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.key-assignment {
+    margin-top: 16px;
+    border-radius: 16px;
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 550px;
+    height: 376px;
+}
+
+.key-assignment img {
+    width: 100%;
+    height: 100%;
+}
+
+.info-btn {
+    margin: 16px;
+    border-radius: 5px;
+    font-family: Arial;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    transition: transform 100ms ease-in, background 100ms ease-in;
+    cursor: pointer;
+}
+
+.info-btn:hover:hover {
+
+    transform: scale(1.1);
+}
+
+.info-btn img {
+    width: 32px;
+    height: 32px;
 }

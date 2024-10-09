@@ -68,7 +68,7 @@ class Character extends MovableObject {
   ];
 
   world;
-  walking_sound = new Audio("audio/running.mp3");
+  // walking_sound = new Audio("audio/running.mp3");
 
   constructor() {
     super().loadImage(this.IMAGES_IDLE[0]);
@@ -90,18 +90,18 @@ class Character extends MovableObject {
 
   // Bewegungslogik in einer eigenen Methode
   handleMovement() {
-    this.walking_sound.pause();
+    runningSound.pause();
 
     if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
       this.moveRight();
-      this.walking_sound.play();
+      runningSound.play();
       this.otherDirection = false;
       this.updateLastMoveTime(); // Bewegung erkannt, Zeit aktualisieren
     }
 
     if (this.world.keyboard.LEFT && this.x > 0) {
       this.moveLeft();
-      this.walking_sound.play();
+      runningSound.play();
       this.otherDirection = true;
       this.updateLastMoveTime(); // Bewegung erkannt, Zeit aktualisieren
     }

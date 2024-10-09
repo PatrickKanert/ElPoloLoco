@@ -36,12 +36,35 @@
 </head>
 
 <body onload="init()">
+    <h1>El pollo loco</h1>
+
     <div class="content">
-        <h1>El pollo loco</h1>
+
+
+        <div class="start-screen" id="startScreen">
+            <div id="helpMenu">
+                <button id="keyboardInfo" onclick="toggleKeyboardInfo()" class="info-btn"> <img
+                        src="./img/keyboard.png"></button>
+                <button id="info" onclick="openInfo()" class="info-btn"> <img src="./img/info.png" alt=""></button>
+                <button id="soundMute" onclick="soundMute()" class="info-btn"> <img src="./img/sound_off.png"
+                        alt=""></button>
+            </div>
+
+            <div id="button" class="start-button">
+                <button onclick="startGame()" class="btn">Start <br> the Game!</button>
+            </div>
+            <div id="keyAssignment" class="d-none key-assignment">
+                <img src="./img/key_assignment.png">
+            </div>
+
+        </div>
 
         <canvas id="canvas" width="720" height="480">
-
         </canvas>
+
+        <!-- <div class="hidden" id="inGameHelpMenu">
+            <button id="" onclick="soundMute()" class="info-btn"> <img src="./img/sound_off.png"></button>
+        </div> -->
     </div>
 
 </body>
