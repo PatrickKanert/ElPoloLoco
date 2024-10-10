@@ -15,6 +15,10 @@ function resetGame() {
   world = null;
 }
 
+function goHome() {
+  window.location.href = "index.html"; // Beispiel: Gehe zu "home.html"
+}
+
 function startGame() {
   document.getElementById("startScreen");
 
@@ -24,8 +28,8 @@ function startGame() {
     startScreen.classList.add("d-none");
     // document.getElementById("inGameHelpMenu").classList.remove("hidden");
   }, 1000);
-  resetGame();
-  init();
+  // resetGame();
+  // init();
 }
 
 function toggleKeyboardInfo() {

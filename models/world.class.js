@@ -12,6 +12,8 @@ class World {
   endbossStatusBar = new EndbossStatusBar();
   throwableObjects = [];
   dKeyPressed = false;
+  gameOver = false; // Hinzugefügt, um das Spiel zu stoppen
+  gameInterval; // Speichert das setInterval()
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -27,10 +29,18 @@ class World {
   }
 
   run() {
-    setInterval(() => {
-      this.checkCollisions();
-      this.checkThrowObjects();
+    this.gameInterval = setInterval(() => {
+      if (!this.gameOver) {
+        // Stoppt den Ablauf, wenn das Spiel vorbei ist
+        this.checkCollisions();
+        this.checkThrowObjects();
+      }
     }, 1000 / 60);
+  }
+
+  stopGame() {
+    this.gameOver = true; // Das Spiel beenden
+    clearInterval(this.gameInterval); // Das setInterval stoppen
   }
 
   checkThrowObjects() {
@@ -66,6 +76,7 @@ class World {
     this.checkBottleEnemyCollision(); // Kollision zwischen Flaschen und Feinden
     this.checkCollectibleCollision(); // Kollision mit Sammelobjekten
     this.checkBottleEndbossCollision(); // Kollision zwischen Flaschen und Endboss
+    this.winLose();
   }
 
   checkCollectibleCollision() {
@@ -132,7 +143,43 @@ class World {
     });
   }
 
+  winLose() {
+    let gameEnded = false; // Flag, um zu prüfen, ob das Spiel bereits vorbei ist
+
+    const showScreen = (isWin) => {
+      const winOrLoseScreen = document.getElementById("WinOrLoseScreen");
+      winOrLoseScreen.classList.add("d-block");
+      winOrLoseScreen.classList.remove("d-none");
+      winOrLoseScreen.classList.add(isWin ? "win" : "lose");
+      winOrLoseScreen.innerHTML = isWin ? htmlWin() : htmlLose();
+    };
+
+    let winLoseInterval = setInterval(() => {
+      if (!gameEnded) {
+        if (this.character.energy <= 0) {
+          // Sofortiges Beenden bei Spielverlust
+          gameEnded = true; // Setze das Flag, um mehrfaches Ausführen zu verhindern
+          showScreen(false); // Verlustbildschirm anzeigen
+          this.stopGame(); // Das Spiel sofort stoppen
+          clearInterval(winLoseInterval); // Stoppe das winLose-Intervall
+        } else if (this.level.endboss.isEndbossDead()) {
+          // Spiel gewonnen
+          gameEnded = true; // Flag setzen, um das erneute Ausführen zu verhindern
+          setTimeout(() => {
+            showScreen(true); // Gewinnbildschirm nach Verzögerung anzeigen
+            this.stopGame(); // Das Spiel nach der Verzögerung stoppen
+          }, 1000); // 1 Sekunde Verzögerung vor der Anzeige des Gewonnen-Bildschirms
+          clearInterval(winLoseInterval); // Stoppe das winLose-Intervall
+        }
+      }
+    }, 500);
+  }
+
   draw() {
+    if (this.gameOver) {
+      return; // Beende das Zeichnen, wenn das Spiel vorbei ist
+    }
+
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     // Zeichne den Hintergrund
@@ -145,7 +192,6 @@ class World {
     }
 
     // ------ Space for fixed objects ------
-    // Stelle sicher, dass die Statusleisten hier gezeichnet werden
     this.addToMap(this.healthstatusBar);
     this.addToMap(this.coinStatusbar);
     this.addToMap(this.bottleStatusBar);
@@ -158,17 +204,18 @@ class World {
     if (this.level.endboss.statusbarVisible) {
       this.addToMap(this.level.endboss); // Zeichne den Endboss, wenn sichtbar
     }
-    this.addToMap(this.level.endboss);
     this.addObjectsToMap(this.level.collectibles);
     this.addObjectsToMap(this.throwableObjects);
 
     this.ctx.translate(-this.camera_x, 0);
 
-    // Draw() wird immer wieder aufgerufen
-    let self = this;
-    requestAnimationFrame(function () {
-      self.draw();
-    });
+    // Beende das Zeichnen nur, wenn das Spiel nicht vorbei ist
+    if (!this.gameOver) {
+      let self = this;
+      requestAnimationFrame(function () {
+        self.draw();
+      });
+    }
   }
 
   addObjectsToMap(objects) {

@@ -31,7 +31,7 @@
     <script src="models/small-chicken.class.js"></script>
     <script src="models/coin.class.js"></script>
     <script src="levels/level1.js"></script>
-
+    <script src="js/htmlTemplates.js"></script>
     <script src="js/game.js"></script>
 </head>
 
@@ -39,9 +39,12 @@
     <h1>El pollo loco</h1>
 
     <div class="content">
+        <div class="d-none" id="WinOrLoseScreen">
 
+        </div>
 
         <div class="start-screen" id="startScreen">
+
             <div id="helpMenu">
                 <button id="keyboardInfo" onclick="toggleKeyboardInfo()" class="info-btn"> <img
                         src="./img/keyboard.png"></button>

@@ -173,4 +173,8 @@ class Endboss extends MovableObject {
     this.y = 100;
     this.playAnimation(this.IMAGES_DEAD); // Spiele die Sterbeanimation ab
   }
+
+  isEndbossDead() {
+    return this.energy <= 0;
+  }
 }

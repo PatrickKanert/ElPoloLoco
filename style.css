@@ -35,6 +35,10 @@ canvas {
     display: none;
 }
 
+.d-block {
+    display: block;
+}
+
 .content {
     display: flex;
     flex-direction: column;
@@ -136,4 +140,61 @@ canvas {
 .info-btn img {
     width: 32px;
     height: 32px;
+}
+
+.win {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    width: 720px;
+    height: 480px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+}
+
+.lose {
+    width: 720px;
+    height: 480px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+
+.win-img {
+
+    width: 400px;
+}
+
+.lost-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+
+.endscreen-win-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.endscreen-lose-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 16px;
+    position: relative;
+    top: -70px;
 }
