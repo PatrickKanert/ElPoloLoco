@@ -23,9 +23,15 @@ function stopGame() {
 
 function resetGame() {
   console.log("Game reset");
+
+  // Stoppe alle laufenden Intervalle
   stopGame();
 
+  // Setze Welt und Objekte zurück
   world = null;
+  intervalIds = []; // Leere das Array für Intervalle, um neue zu starten
+
+  // Optionale Bereinigung von Tastaturzuständen
 }
 
 function goHome() {
@@ -33,8 +39,8 @@ function goHome() {
 }
 
 function startGame() {
+  resetGame();
   init();
-
   document.getElementById("startScreen");
 
   startScreen.classList.add("fade-out");
@@ -43,7 +49,6 @@ function startGame() {
     startScreen.classList.add("d-none");
     // document.getElementById("inGameHelpMenu").classList.remove("hidden");
   }, 1000);
-  // stopGame();
 }
 
 function toggleKeyboardInfo() {

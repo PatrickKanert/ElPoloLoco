@@ -3,6 +3,7 @@ class Character extends MovableObject {
   y = 250;
   lastMoveTime = Date.now();
   idleTimeout = 10000;
+  world;
 
   IMAGES_IDLE = [
     "img/2_character_pepe/1_idle/idle/I-1.png",
@@ -66,9 +67,6 @@ class Character extends MovableObject {
     "img/2_character_pepe/5_dead/D-56.png",
     "img/2_character_pepe/5_dead/D-57.png",
   ];
-
-  world;
-  // walking_sound = new Audio("audio/running.mp3");
 
   constructor() {
     super().loadImage(this.IMAGES_IDLE[0]);

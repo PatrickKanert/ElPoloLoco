@@ -24,6 +24,7 @@ canvas {
     background-color: black;
     border-radius: 16px;
     border: 6px solid sandybrown;
+    display: block;
 }
 
 .d-none {
@@ -57,7 +58,7 @@ canvas {
     height: 480px;
     border-radius: 8px;
     background-image: url(./img/9_intro_outro_screens/start/startscreen_1.png);
-    background-size: 720px 480px;
+    background-size: 100% 100%;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -197,4 +198,53 @@ canvas {
     gap: 16px;
     position: relative;
     top: -70px;
+}
+
+
+
+
+
+@media only screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
+        border: none;
+    }
+
+    .start-screen {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 950px) {
+    canvas {
+        border: none;
+        width: 100%;
+    }
+
+    .start-screen {
+        width: 100%;
+    }
+}
+
+
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+        border-radius: 0px;
+    }
+
+    .content {
+        transform: none;
+        width: 100%;
+    }
+
+    h1 {
+        display: none;
+    }
+
+    .start-screen {
+        height: 100%;
+        border-radius: 0px;
+    }
+
 }
