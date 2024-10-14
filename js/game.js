@@ -2,6 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let keyboardInfoVisible = false;
+let isSoundMuted = true;
 
 function init() {
   canvas = document.getElementById("canvas");
@@ -51,6 +52,28 @@ function toggleKeyboardInfo() {
   }
 
   keyboardInfoVisible = !keyboardInfoVisible;
+}
+
+function soundMute() {
+  const soundOnIcon = document.getElementById("soundOn");
+  const soundOffIcon = document.getElementById("soundOff");
+
+  if (isSoundMuted) {
+    // Ton einschalten
+    soundOffIcon.classList.add("d-none"); // Sound Off Icon ausblenden
+    soundOnIcon.classList.remove("d-none"); // Sound On Icon einblenden
+    playSound.play();
+    console.log("Sound eingeschaltet");
+  } else {
+    // Ton ausschalten
+    soundOnIcon.classList.add("d-none"); // Sound On Icon ausblenden
+    soundOffIcon.classList.remove("d-none"); // Sound Off Icon einblenden
+    playSound.pause();
+
+    console.log("Sound ausgeschaltet");
+  }
+
+  isSoundMuted = !isSoundMuted; // Den Status umschalten
 }
 
 window.addEventListener("keydown", (e) => {

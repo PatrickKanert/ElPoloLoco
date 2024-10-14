@@ -158,12 +158,14 @@ class World {
       if (!gameEnded) {
         if (this.character.energy <= 0) {
           // Sofortiges Beenden bei Spielverlust
+          loseSound.play();
           gameEnded = true; // Setze das Flag, um mehrfaches Ausführen zu verhindern
           showScreen(false); // Verlustbildschirm anzeigen
           this.stopGame(); // Das Spiel sofort stoppen
           clearInterval(winLoseInterval); // Stoppe das winLose-Intervall
         } else if (this.level.endboss.isEndbossDead()) {
           // Spiel gewonnen
+          winSound.play();
           gameEnded = true; // Flag setzen, um das erneute Ausführen zu verhindern
           setTimeout(() => {
             showScreen(true); // Gewinnbildschirm nach Verzögerung anzeigen

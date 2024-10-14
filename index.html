@@ -31,7 +31,7 @@
     <script src="models/small-chicken.class.js"></script>
     <script src="models/coin.class.js"></script>
     <script src="levels/level1.js"></script>
-    <script src="js/htmlTemplates.js"></script>
+    <script src="js/templatesHTML.js"></script>
     <script src="js/game.js"></script>
 </head>
 
@@ -49,8 +49,8 @@
                 <button id="keyboardInfo" onclick="toggleKeyboardInfo()" class="info-btn"> <img
                         src="./img/keyboard.png"></button>
                 <button id="info" onclick="openInfo()" class="info-btn"> <img src="./img/info.png" alt=""></button>
-                <button id="soundMute" onclick="soundMute()" class="info-btn"> <img src="./img/sound_off.png"
-                        alt=""></button>
+                <button id="soundMute" onclick="soundMute()" class="info-btn"> <img id="soundOff"
+                        src="./img/sound_off.png"> <img class="d-none" id="soundOn" src="./img/sound_on.png"> </button>
             </div>
 
             <div id="button" class="start-button">
