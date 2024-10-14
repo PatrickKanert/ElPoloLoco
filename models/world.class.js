@@ -1,5 +1,6 @@
 class World {
   character = new Character();
+  endboss = new Endboss();
   level = level1;
 
   canvas;
@@ -29,18 +30,13 @@ class World {
   }
 
   run() {
-    this.gameInterval = setInterval(() => {
+    this.gameInterval = setStoppableInterval(() => {
       if (!this.gameOver) {
         // Stoppt den Ablauf, wenn das Spiel vorbei ist
         this.checkCollisions();
         this.checkThrowObjects();
       }
     }, 1000 / 60);
-  }
-
-  stopGame() {
-    this.gameOver = true; // Das Spiel beenden
-    clearInterval(this.gameInterval); // Das setInterval stoppen
   }
 
   checkThrowObjects() {
@@ -113,9 +109,9 @@ class World {
 
   checkBottleEndbossCollision() {
     this.throwableObjects.forEach((bottle, bottleIndex) => {
-      if (bottle.isColliding(this.level.endboss)) {
+      if (bottle.isColliding(this.endboss)) {
         console.log("Bottle hit the Endboss");
-        this.level.endboss.hitEndboss();
+        this.endboss.hitEndboss();
         this.throwableObjects.splice(bottleIndex, 1); // Flasche entfernen
       }
     });
@@ -154,24 +150,22 @@ class World {
       winOrLoseScreen.innerHTML = isWin ? htmlWin() : htmlLose();
     };
 
-    let winLoseInterval = setInterval(() => {
+    let winLoseInterval = setStoppableInterval(() => {
       if (!gameEnded) {
         if (this.character.energy <= 0) {
           // Sofortiges Beenden bei Spielverlust
           loseSound.play();
           gameEnded = true; // Setze das Flag, um mehrfaches Ausführen zu verhindern
           showScreen(false); // Verlustbildschirm anzeigen
-          this.stopGame(); // Das Spiel sofort stoppen
-          clearInterval(winLoseInterval); // Stoppe das winLose-Intervall
-        } else if (this.level.endboss.isEndbossDead()) {
+          stopGame(); // Das Spiel sofort stoppen
+        } else if (this.endboss.isEndbossDead()) {
           // Spiel gewonnen
           winSound.play();
           gameEnded = true; // Flag setzen, um das erneute Ausführen zu verhindern
           setTimeout(() => {
             showScreen(true); // Gewinnbildschirm nach Verzögerung anzeigen
-            this.stopGame(); // Das Spiel nach der Verzögerung stoppen
+            stopGame(); // Das Spiel nach der Verzögerung stoppen
           }, 1000); // 1 Sekunde Verzögerung vor der Anzeige des Gewonnen-Bildschirms
-          clearInterval(winLoseInterval); // Stoppe das winLose-Intervall
         }
       }
     }, 500);
@@ -189,7 +183,7 @@ class World {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.ctx.translate(-this.camera_x, 0);
 
-    if (this.level.endboss.statusbarVisible) {
+    if (this.endboss.statusbarVisible) {
       this.addToMap(this.endbossStatusBar);
     }
 
@@ -203,9 +197,7 @@ class World {
     this.addToMap(this.character);
     this.addObjectsToMap(this.level.clouds);
     this.addObjectsToMap(this.level.enemies);
-    if (this.level.endboss.statusbarVisible) {
-      this.addToMap(this.level.endboss); // Zeichne den Endboss, wenn sichtbar
-    }
+    this.addToMap(this.endboss);
     this.addObjectsToMap(this.level.collectibles);
     this.addObjectsToMap(this.throwableObjects);
 

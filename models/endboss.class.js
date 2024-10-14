@@ -66,7 +66,7 @@ class Endboss extends MovableObject {
 
   // Animation für den Endboss - Beobachtung, Bewegung, Angriff oder Verletzung
   animate() {
-    setInterval(() => {
+    setStoppableInterval(() => {
       this.moveToCharacter(world.character); // Überprüfe die Distanz und lasse den Boss laufen oder beobachten
 
       // Zuerst prüfen, ob der Endboss verletzt oder tot ist
@@ -152,19 +152,18 @@ class Endboss extends MovableObject {
 
   showHurtAnimation() {
     if (this.hurtTimeout) {
-      clearTimeout(this.hurtTimeout); // Timeout zurücksetzen, wenn bereits eine Animation läuft
+      clearTimeout(this.hurtTimeout);
     }
 
-    this.isHurt = true; // Setze den Zustand auf verletzt
-    this.playAnimation(this.IMAGES_HURT); // Spiele die Verletzungsanimation ab
+    this.isHurt = true;
+    this.playAnimation(this.IMAGES_HURT);
 
-    // Nach 0.5 Sekunden zurück zur normalen Animation wechseln
     this.hurtTimeout = setTimeout(() => {
-      this.isHurt = false; // Setze den Zustand zurück
+      this.isHurt = false;
       if (!this.isDead) {
-        this.isWalking = true; // Nach Verletzung wieder zurück zur Laufanimation
+        this.isWalking = true;
       }
-    }, 500); // Dauer der Verletzungsanimation in Millisekunden
+    }, 500);
   }
 
   dieEndboss() {

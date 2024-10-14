@@ -53,7 +53,6 @@ class ThrowableObject extends MovableObject {
   }
 
   isBottleAboveGround() {
-    // Überprüfe, ob die Flasche über dem Boden-Level ist
     return this.y < this.groundLevel;
   }
 
@@ -61,7 +60,7 @@ class ThrowableObject extends MovableObject {
     clearInterval(this.rotationInterval); // Stoppe die Flugbewegung
     clearInterval(this.gravityInterval); // Stoppe die Schwerkraft
     glassSound.play();
-    setInterval(() => {
+    setStoppableInterval(() => {
       this.playAnimation(this.IMAGES_BOTTLE_SPLASH); // Spiele Splash-Animation ab
     }, 40);
 

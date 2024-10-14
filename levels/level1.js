@@ -1,16 +1,13 @@
 const level1 = new Level(
   // Feinde
   [
-    // new Chicken(),
-    // new Chicken(),
-    // new Chicken(),
-    // new SmallChicken(),
-    // new SmallChicken(),
-    // new SmallChicken(),
+    new Chicken(),
+    new Chicken(),
+    new Chicken(),
+    new SmallChicken(),
+    new SmallChicken(),
+    new SmallChicken(),
   ],
-
-  // Endboss (sollte ein einzelnes Objekt sein, nicht ein Array)
-  new Endboss(),
 
   // Wolken
   [new Cloud()],

@@ -44,7 +44,7 @@ canvas {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transform: translate(0, -130px);
+    transform: translate(0, -80px);
 }
 
 

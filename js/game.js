@@ -3,6 +3,7 @@ let world;
 let keyboard = new Keyboard();
 let keyboardInfoVisible = false;
 let isSoundMuted = true;
+let intervalIds = [];
 
 function init() {
   canvas = document.getElementById("canvas");
@@ -11,8 +12,19 @@ function init() {
   console.log("My Character is", world.character);
 }
 
+function setStoppableInterval(fn, time) {
+  let id = setInterval(fn, time);
+  intervalIds.push(id);
+}
+
+function stopGame() {
+  intervalIds.forEach(clearInterval);
+}
+
 function resetGame() {
   console.log("Game reset");
+  stopGame();
+
   world = null;
 }
 
@@ -21,6 +33,8 @@ function goHome() {
 }
 
 function startGame() {
+  init();
+
   document.getElementById("startScreen");
 
   startScreen.classList.add("fade-out");
@@ -29,8 +43,7 @@ function startGame() {
     startScreen.classList.add("d-none");
     // document.getElementById("inGameHelpMenu").classList.remove("hidden");
   }, 1000);
-  // resetGame();
-  // init();
+  // stopGame();
 }
 
 function toggleKeyboardInfo() {

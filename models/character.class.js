@@ -84,8 +84,8 @@ class Character extends MovableObject {
 
   // Haupt-Animate-Funktion, die nur noch für die regelmäßigen Aufrufe verantwortlich ist
   animate() {
-    setInterval(() => this.handleMovement(), 1000 / 60);
-    setInterval(() => this.handleAnimation(), 100);
+    setStoppableInterval(() => this.handleMovement(), 1000 / 60);
+    setStoppableInterval(() => this.handleAnimation(), 100);
   }
 
   // Bewegungslogik in einer eigenen Methode

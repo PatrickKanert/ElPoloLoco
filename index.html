@@ -10,9 +10,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Frijole&display=swap" rel="stylesheet">
+
     <script src="js/audio.js"></script>
     <script src="models/drawable-objects.class.js"></script>
     <script src="models/movable-object.class.js"></script>
+    <script src="models/throwable-object.class.js"></script>
+
     <script src="models/character.class.js"></script>
     <script src="models/chicken.class.js"></script>
     <script src="models/bottle.class.js"></script>
@@ -26,7 +29,6 @@
     <script src="models/background-object.class.js"></script>
     <script src="models/keyboard.class.js"></script>
     <script src="models/level.class.js"></script>
-    <script src="models/throwable-object.class.js"></script>
     <script src="models/endboss.class.js"></script>
     <script src="models/small-chicken.class.js"></script>
     <script src="models/coin.class.js"></script>
@@ -35,7 +37,7 @@
     <script src="js/game.js"></script>
 </head>
 
-<body onload="init()">
+<body onload="resetGame()">
     <h1>El pollo loco</h1>
 
     <div class="content">
@@ -49,6 +51,7 @@
                 <button id="keyboardInfo" onclick="toggleKeyboardInfo()" class="info-btn"> <img
                         src="./img/keyboard.png"></button>
                 <button id="info" onclick="openInfo()" class="info-btn"> <img src="./img/info.png" alt=""></button>
+
                 <button id="soundMute" onclick="soundMute()" class="info-btn"> <img id="soundOff"
                         src="./img/sound_off.png"> <img class="d-none" id="soundOn" src="./img/sound_on.png"> </button>
             </div>
@@ -69,6 +72,11 @@
             <button id="" onclick="soundMute()" class="info-btn"> <img src="./img/sound_off.png"></button>
         </div> -->
     </div>
+
+
+
+
+
 
 </body>
 
