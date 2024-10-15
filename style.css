@@ -224,8 +224,25 @@ canvas {
     top: -70px;
 }
 
+.hud {
+    position: absolute;
+    bottom: 10px;
+    display: none;
+    justify-content: space-between;
+    width: 100%;
+
+}
 
 
+.panel-wrapper {
+    display: flex;
+    padding: 0px 24px;
+    gap: 24px;
+}
+
+.panel-wrapper img {
+    width: 40px;
+}
 
 
 @media only screen and (max-width: 720px) {
@@ -241,12 +258,37 @@ canvas {
 
 @media only screen and (max-width: 950px) {
     canvas {
+        display: block;
         border: none;
         width: 100%;
     }
 
     .start-screen {
         width: 100%;
+    }
+
+    .hud {
+        display: flex;
+    }
+
+    .lose {
+        height: 100vh;
+        width: 100%;
+    }
+
+    .lost-img {
+        height: 99vh;
+        border-radius: 0;
+    }
+
+    .win {
+        height: 100vh;
+        width: 100%;
+        border-radius: 0;
+    }
+
+    .win-img {
+        width: 300px;
     }
 }
 
@@ -258,6 +300,7 @@ canvas {
     }
 
     .content {
+        position: relative;
         transform: none;
         width: 100%;
     }
