@@ -32,7 +32,6 @@ class MovableObject extends DrawableObject {
 
   isAboveGround() {
     if (this instanceof ThrowableObject) {
-      // Throwable objects should always fall
       return true;
     } else {
       return this.y < 250;
@@ -40,7 +39,7 @@ class MovableObject extends DrawableObject {
   }
 
   isFalling() {
-    return this.speedY < 0; // Prüft, ob der Charakter nach unten fällt
+    return this.speedY < 0;
   }
 
   isColliding(mo) {
@@ -53,34 +52,32 @@ class MovableObject extends DrawableObject {
   }
 
   hit() {
-    if (this.isHit) return; // Ignoriere den Treffer, wenn bereits verletzt
-    this.isHit = true; // Setze den Zustand auf verletzt
+    if (this.isHit) return;
+    this.isHit = true;
 
-    // Schaden zufügen
     this.energy -= 5;
     if (this.energy < 0) {
-      this.energy = 0; // Energie auf 0 setzen, wenn sie negativ wird
+      this.energy = 0;
     } else {
-      this.lastHit = new Date().getTime(); // Zeit des letzten Treffers speichern
+      this.lastHit = new Date().getTime();
     }
 
-    world.healthstatusBar.setPercentage(this.energy); // Aktualisiert die Statusleiste
+    world.healthstatusBar.setPercentage(this.energy);
 
-    // Timeout, um den Trefferstatus zurückzusetzen
     setTimeout(() => {
-      this.isHit = false; // Zustand zurücksetzen nach der Verletzung
-    }, 300); // Zeit, nach der der Charakter erneut getroffen werden kann
+      this.isHit = false;
+    }, 300);
   }
 
   hitEndboss() {
-    if (this.isDead) return; // Wenn der Endboss bereits tot ist, tue nichts
-    this.energy -= 15; // Reduziere die Energie um 20 bei jedem Treffer
+    if (this.isDead) return;
+    this.energy -= 15;
     if (this.energy <= 0) {
       this.energy = 0;
-      this.isDead = true; // Markiere den Endboss als tot
-      this.dieEndboss(); // Rufe die Sterbemethode auf
+      this.isDead = true;
+      this.dieEndboss();
     } else {
-      this.showHurtAnimation(); // Spiele die "Schmerzen"-Animation ab
+      this.showHurtAnimation();
       console.log(`Endboss hit! Energy left: ${this.energy}%`);
     }
     world.endbossStatusBar.setPercentage(this.energy);
@@ -94,12 +91,12 @@ class MovableObject extends DrawableObject {
       this.lastHit = new Date().getTime();
     }
 
-    world.healthstatusBar.setPercentage(this.energy); // Aktualisiert die Statusleiste
+    world.healthstatusBar.setPercentage(this.energy);
   }
 
   isHurt() {
-    let timepassed = new Date().getTime() - this.lastHit; // Difference in ms
-    timepassed = timepassed / 1000; // Difference in s
+    let timepassed = new Date().getTime() - this.lastHit;
+    timepassed = timepassed / 1000;
     return timepassed < 0.5;
   }
 
@@ -128,18 +125,13 @@ class MovableObject extends DrawableObject {
   }
 
   kill() {
-    console.log("Chicken killed"); // Zum Testen, ob die Methode aufgerufen wird
-    this.isDead = true; // Markiere das Hühnchen als tot
-    this.speed = 0; // Stoppe die Bewegung des Hühnchens
-    this.playAnimation(this.IMAGES_DEAD); // Spiele die Sterbeanimation ab
+    console.log("Chicken killed");
+    this.isDead = true;
+    this.speed = 0;
+    this.playAnimation(this.IMAGES_DEAD);
 
-    // Optional: Entferne das Hühnchen nach kurzer Zeit
     setTimeout(() => {
-      this.y = 500; // Entferne das Hühnchen aus dem sichtbaren Bereich
+      this.y = 500;
     }, 800);
-  }
-
-  die() {
-    console.log("Character is dead");
   }
 }

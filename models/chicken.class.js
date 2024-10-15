@@ -24,14 +24,12 @@ class Chicken extends MovableObject {
   animate() {
     setInterval(() => {
       if (!this.isDead) {
-        // Move only if the chicken is alive
         this.moveLeft();
       }
     }, 1000 / 60);
 
     setInterval(() => {
       if (!this.isDead) {
-        // Play walking animation only if the chicken is alive
         this.playAnimation(this.IMAGES_WALKING);
       }
     }, 250);

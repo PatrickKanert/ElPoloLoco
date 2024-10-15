@@ -3,12 +3,13 @@ let world;
 let keyboard = new Keyboard();
 let keyboardInfoVisible = false;
 let isSoundMuted = true;
+let isInGameMuted = true;
 let intervalIds = [];
 
 function init() {
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
-
+  world.setLevel(level1);
   console.log("My Character is", world.character);
 }
 
@@ -23,32 +24,41 @@ function stopGame() {
 
 function resetGame() {
   console.log("Game reset");
-
-  // Stoppe alle laufenden Intervalle
   stopGame();
-
-  // Setze Welt und Objekte zurück
   world = null;
-  intervalIds = []; // Leere das Array für Intervalle, um neue zu starten
-
-  // Optionale Bereinigung von Tastaturzuständen
+  intervalIds = [];
 }
 
 function goHome() {
-  window.location.href = "index.html"; // Beispiel: Gehe zu "home.html"
+  resetGame();
+  window.location.href = "index.html";
 }
 
 function startGame() {
   resetGame();
   init();
-  document.getElementById("startScreen");
+  initLevel();
+  world.setLevel(level1);
 
+  document.getElementById("startScreen");
   startScreen.classList.add("fade-out");
 
   setTimeout(function () {
     startScreen.classList.add("d-none");
-    // document.getElementById("inGameHelpMenu").classList.remove("hidden");
   }, 1000);
+}
+
+function restartGame() {
+  resetGame();
+  init();
+  initLevel();
+  world.setLevel(level1);
+
+  document.getElementById("winOrLoseScreen");
+
+  winOrLoseScreen.classList.add("fade-out");
+
+  setTimeout(function () {}, 1000);
 }
 
 function toggleKeyboardInfo() {
@@ -77,21 +87,19 @@ function soundMute() {
   const soundOffIcon = document.getElementById("soundOff");
 
   if (isSoundMuted) {
-    // Ton einschalten
-    soundOffIcon.classList.add("d-none"); // Sound Off Icon ausblenden
-    soundOnIcon.classList.remove("d-none"); // Sound On Icon einblenden
+    soundOffIcon.classList.add("d-none");
+    soundOnIcon.classList.remove("d-none");
     playSound.play();
     console.log("Sound eingeschaltet");
   } else {
-    // Ton ausschalten
-    soundOnIcon.classList.add("d-none"); // Sound On Icon ausblenden
-    soundOffIcon.classList.remove("d-none"); // Sound Off Icon einblenden
+    soundOnIcon.classList.add("d-none");
+    soundOffIcon.classList.remove("d-none");
     playSound.pause();
 
     console.log("Sound ausgeschaltet");
   }
 
-  isSoundMuted = !isSoundMuted; // Den Status umschalten
+  isSoundMuted = !isSoundMuted;
 }
 
 window.addEventListener("keydown", (e) => {

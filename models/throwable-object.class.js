@@ -27,16 +27,16 @@ class ThrowableObject extends MovableObject {
   }
 
   throw() {
-    this.speedY = 30; // Anfangsgeschwindigkeit der Flasche nach oben
-    this.applyGravityForBottle(); // Wende Schwerkraft auf die Flasche an
+    this.speedY = 30;
+    this.applyGravityForBottle();
     throwSound.play();
-    let direction = world.character.otherDirection ? -1 : 1; // Blickrichtung des Charakters (links = -1, rechts = 1)
+    let direction = world.character.otherDirection ? -1 : 1;
 
     this.rotationInterval = setInterval(() => {
-      this.x += 8 * direction; // Bewege die Flasche nach links oder rechts
+      this.x += 8 * direction;
 
       if (this.isAboveGround()) {
-        this.playAnimation(this.IMAGES_BOTTLE_ROTATION); // Spiele Rotationsanimation ab
+        this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
       }
     }, 1000 / 60);
   }
@@ -47,7 +47,7 @@ class ThrowableObject extends MovableObject {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
       } else {
-        this.bottleLand(); // Wenn die Flasche den Boden erreicht, führe Landungslogik aus
+        this.bottleLand();
       }
     }, 1000 / 25);
   }
@@ -57,15 +57,15 @@ class ThrowableObject extends MovableObject {
   }
 
   bottleLand() {
-    clearInterval(this.rotationInterval); // Stoppe die Flugbewegung
-    clearInterval(this.gravityInterval); // Stoppe die Schwerkraft
+    clearInterval(this.rotationInterval);
+    clearInterval(this.gravityInterval);
     glassSound.play();
     setStoppableInterval(() => {
-      this.playAnimation(this.IMAGES_BOTTLE_SPLASH); // Spiele Splash-Animation ab
+      this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
     }, 40);
 
     setTimeout(() => {
-      world.throwableObjects.splice(world.bottleIndex, 1); // Entferne die Flasche nach Kollision
-    }, 400); // Warte 600ms (Dauer der Splash-Animation)
+      world.throwableObjects.splice(world.bottleIndex, 1);
+    }, 200);
   }
 }

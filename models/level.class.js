@@ -6,9 +6,9 @@ class Level {
   backgroundObjects;
 
   constructor(enemies, clouds, collectibles, backgroundObjects) {
-    this.enemies = enemies; // Array von Feinden
-    this.clouds = clouds; // Array von Wolken
-    this.collectibles = collectibles; // Array von Sammelobjekten
-    this.backgroundObjects = backgroundObjects; // Array von Hintergrundobjekten
+    this.enemies = enemies;
+    this.clouds = clouds;
+    this.collectibles = collectibles;
+    this.backgroundObjects = backgroundObjects;
   }
 }

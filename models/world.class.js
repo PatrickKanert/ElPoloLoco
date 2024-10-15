@@ -1,7 +1,7 @@
 class World {
   character = new Character();
   endboss = new Endboss();
-  level = level1;
+  level = null;
 
   canvas;
   ctx;
@@ -13,26 +13,32 @@ class World {
   endbossStatusBar = new EndbossStatusBar();
   throwableObjects = [];
   dKeyPressed = false;
-  gameOver = false; // Hinzugefügt, um das Spiel zu stoppen
-  gameInterval; // Speichert das setInterval()
+  gameOver = false;
+  gameInterval;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
+
+    this.level = null;
     this.draw();
     this.setWorld();
     this.run();
   }
 
+  setLevel(level) {
+    this.level = level;
+  }
+
   setWorld() {
     this.character.world = this;
+    this.level = level1;
   }
 
   run() {
     this.gameInterval = setStoppableInterval(() => {
       if (!this.gameOver) {
-        // Stoppt den Ablauf, wenn das Spiel vorbei ist
         this.checkCollisions();
         this.checkThrowObjects();
       }
@@ -40,56 +46,49 @@ class World {
   }
 
   checkThrowObjects() {
-    // Prüfen, ob die Taste D gedrückt wurde und der Charakter Flaschen hat
     if (this.keyboard.D && !this.dKeyPressed && this.character.bottles > 0) {
-      this.dKeyPressed = true; // Merken, dass die Taste gedrückt wurde
-
-      // Erstelle die Flasche und füge sie der Liste der Wurfobjekte hinzu
+      this.dKeyPressed = true;
       let bottle = new ThrowableObject(
         this.character.x + 38,
         this.character.y + 60
       );
       this.throwableObjects.push(bottle);
-
-      // Reduziere die Anzahl der Flaschen
       this.character.bottles--;
-      this.bottleStatusBar.setPercentage(this.character.bottles); // Aktualisiere die Statusleiste
+      this.bottleStatusBar.setPercentage(this.character.bottles);
 
-      // Setze einen Timeout, um den Wurf-Cooldown zu verwalten
       setTimeout(() => {
-        this.dKeyPressed = false; // Zurücksetzen, um auf den nächsten Tastendruck zu warten
-      }, 500); // Cooldown von 500ms
+        this.dKeyPressed = false;
+      }, 500);
     }
 
-    // Wenn die Taste D losgelassen wird, setze den Zustand zurück
     if (!this.keyboard.D) {
-      this.dKeyPressed = false; // Zurücksetzen, um auf den nächsten Tastendruck zu warten
+      this.dKeyPressed = false;
     }
   }
 
   checkCollisions() {
-    this.checkCharacterEnemyCollision(); // Kollision zwischen Charakter und Feinden
-    this.checkBottleEnemyCollision(); // Kollision zwischen Flaschen und Feinden
-    this.checkCollectibleCollision(); // Kollision mit Sammelobjekten
-    this.checkBottleEndbossCollision(); // Kollision zwischen Flaschen und Endboss
-    this.winLose();
+    if (this.level) {
+      this.checkCharacterEnemyCollision();
+      this.checkBottleEnemyCollision();
+      this.checkCollectibleCollision();
+      this.checkBottleEndbossCollision();
+      this.winLose();
+    }
   }
 
   checkCollectibleCollision() {
     this.level.collectibles.forEach((collectible, index) => {
       if (this.character.isColliding(collectible)) {
         if (collectible instanceof Coin) {
-          this.character.collectCoin(); // Münze sammeln
+          this.character.collectCoin();
           collect.play();
-          this.coinStatusbar.setPercentage(this.character.coins); // Statusbalken für Münzen aktualisieren
-          this.level.collectibles.splice(index, 1); // Entferne die gesammelte Münze aus dem Array
-          console.log("Münze gesammelt");
+          this.coinStatusbar.setPercentage(this.character.coins);
+          this.level.collectibles.splice(index, 1);
         } else if (collectible instanceof Bottle) {
           collect.play();
-          this.character.collectBottle(); // Anzahl der Flaschen erhöhen
-          this.bottleStatusBar.setPercentage(this.character.bottles); // Statusbalken für Flaschen aktualisieren
-          this.level.collectibles.splice(index, 1); // Entferne die gesammelte Flasche aus dem Array
-          console.log("Flasche gesammelt");
+          this.character.collectBottle();
+          this.bottleStatusBar.setPercentage(this.character.bottles);
+          this.level.collectibles.splice(index, 1);
         }
       }
     });
@@ -99,9 +98,8 @@ class World {
     this.throwableObjects.forEach((bottle, bottleIndex) => {
       this.level.enemies.forEach((enemy) => {
         if (bottle.isColliding(enemy)) {
-          console.log("Bottle hit the chicken");
-          enemy.kill(); // Hühnchen töten
-          this.throwableObjects.splice(bottleIndex, 1); // Entferne die Flasche nach Kollision
+          enemy.kill();
+          this.throwableObjects.splice(bottleIndex, 1);
         }
       });
     });
@@ -110,100 +108,103 @@ class World {
   checkBottleEndbossCollision() {
     this.throwableObjects.forEach((bottle, bottleIndex) => {
       if (bottle.isColliding(this.endboss)) {
-        console.log("Bottle hit the Endboss");
         this.endboss.hitEndboss();
-        this.throwableObjects.splice(bottleIndex, 1); // Flasche entfernen
+        this.throwableObjects.splice(bottleIndex, 1);
       }
     });
   }
 
   checkCharacterEnemyCollision() {
     this.level.enemies.forEach((enemy) => {
-      // Wenn das Hühnchen tot ist, ignoriere es
       if (enemy.isDead) {
-        return; // Überspringe die weiteren Überprüfungen für dieses Hühnchen
+        return;
       }
 
-      // Prüfe, ob der Charakter auf das Hühnchen springt
       if (this.character.isColliding(enemy) && this.character.isFalling()) {
-        console.log("Character jumped on the chicken");
-        enemy.kill(); // Hühnchen töten
-        this.character.jump(); // Charakter springt nach dem Töten erneut
-      }
-      // Prüfe, ob der Charakter seitlich mit dem Hühnchen kollidiert
-      else if (this.character.isColliding(enemy)) {
-        console.log("Character hit by the chicken");
-        this.character.hit(); // Charakter wird verletzt
-        console.log(this.character.energy);
+        enemy.kill();
+        this.character.jump();
+      } else if (this.character.isColliding(enemy)) {
+        this.character.hit();
       }
     });
   }
 
+  displayWinLoseScreen(isWin) {
+    const winOrLoseScreen = document.getElementById("winOrLoseScreen");
+    winOrLoseScreen.classList.add("d-block");
+    winOrLoseScreen.classList.remove("d-none");
+    winOrLoseScreen.classList.add(isWin ? "win" : "lose");
+    winOrLoseScreen.innerHTML = isWin ? htmlWin() : htmlLose();
+  }
+
   winLose() {
-    let gameEnded = false; // Flag, um zu prüfen, ob das Spiel bereits vorbei ist
+    let gameEnded = false;
 
     const showScreen = (isWin) => {
-      const winOrLoseScreen = document.getElementById("WinOrLoseScreen");
-      winOrLoseScreen.classList.add("d-block");
-      winOrLoseScreen.classList.remove("d-none");
-      winOrLoseScreen.classList.add(isWin ? "win" : "lose");
-      winOrLoseScreen.innerHTML = isWin ? htmlWin() : htmlLose();
+      this.displayWinLoseScreen(isWin);
     };
 
     let winLoseInterval = setStoppableInterval(() => {
       if (!gameEnded) {
-        if (this.character.energy <= 0) {
-          // Sofortiges Beenden bei Spielverlust
-          loseSound.play();
-          gameEnded = true; // Setze das Flag, um mehrfaches Ausführen zu verhindern
-          showScreen(false); // Verlustbildschirm anzeigen
-          stopGame(); // Das Spiel sofort stoppen
-        } else if (this.endboss.isEndbossDead()) {
-          // Spiel gewonnen
-          winSound.play();
-          gameEnded = true; // Flag setzen, um das erneute Ausführen zu verhindern
-          setTimeout(() => {
-            showScreen(true); // Gewinnbildschirm nach Verzögerung anzeigen
-            stopGame(); // Das Spiel nach der Verzögerung stoppen
-          }, 1000); // 1 Sekunde Verzögerung vor der Anzeige des Gewonnen-Bildschirms
-        }
+        this.checkGameEndConditions(showScreen);
       }
     }, 500);
   }
 
+  checkGameEndConditions(showScreen) {
+    if (this.character.energy <= 0) {
+      this.handleGameLoss(showScreen);
+    } else if (this.endboss.isEndbossDead()) {
+      this.handleGameWin(showScreen);
+    }
+  }
+
+  handleGameLoss(showScreen) {
+    loseSound.play();
+    showScreen(false);
+    stopGame();
+  }
+
+  handleGameWin(showScreen) {
+    winSound.play();
+    setTimeout(() => {
+      showScreen(true);
+      stopGame();
+    }, 1000);
+  }
+
   draw() {
     if (this.gameOver) {
-      return; // Beende das Zeichnen, wenn das Spiel vorbei ist
+      return;
     }
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // Zeichne den Hintergrund
-    this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.level.backgroundObjects);
-    this.ctx.translate(-this.camera_x, 0);
+    if (this.level && this.level.backgroundObjects) {
+      this.ctx.translate(this.camera_x, 0);
+      this.addObjectsToMap(this.level.backgroundObjects);
+      this.ctx.translate(-this.camera_x, 0);
+    }
 
     if (this.endboss.statusbarVisible) {
       this.addToMap(this.endbossStatusBar);
     }
 
-    // ------ Space for fixed objects ------
     this.addToMap(this.healthstatusBar);
     this.addToMap(this.coinStatusbar);
     this.addToMap(this.bottleStatusBar);
 
-    // Zeichne die anderen Objekte
-    this.ctx.translate(this.camera_x, 0);
-    this.addToMap(this.character);
-    this.addObjectsToMap(this.level.clouds);
-    this.addObjectsToMap(this.level.enemies);
-    this.addToMap(this.endboss);
-    this.addObjectsToMap(this.level.collectibles);
-    this.addObjectsToMap(this.throwableObjects);
+    if (this.level) {
+      this.ctx.translate(this.camera_x, 0);
+      this.addToMap(this.character);
+      this.addObjectsToMap(this.level.clouds);
+      this.addObjectsToMap(this.level.enemies);
+      this.addToMap(this.endboss);
+      this.addObjectsToMap(this.level.collectibles);
+      this.addObjectsToMap(this.throwableObjects);
+      this.ctx.translate(-this.camera_x, 0);
+    }
 
-    this.ctx.translate(-this.camera_x, 0);
-
-    // Beende das Zeichnen nur, wenn das Spiel nicht vorbei ist
     if (!this.gameOver) {
       let self = this;
       requestAnimationFrame(function () {

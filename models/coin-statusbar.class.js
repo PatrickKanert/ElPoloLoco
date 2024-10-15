@@ -21,8 +21,8 @@ class CoinStatusBar extends DrawableObject {
   }
 
   setPercentage(coins) {
-    this.percentage = coins * 20; // Set percentage based on number of coins
-    this.percentage = Math.min(this.percentage, 100); // Cap at 100%
+    this.percentage = coins * 10;
+    this.percentage = Math.min(this.percentage, 100);
     let path = this.IMAGES_COIN[this.resolveImageIndex()];
     this.img = this.imageCache[path];
   }

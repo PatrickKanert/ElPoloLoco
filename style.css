@@ -28,7 +28,7 @@ canvas {
 }
 
 .d-none {
-    display: none;
+    display: none !important;
     pointer-events: none;
 }
 
@@ -134,13 +134,37 @@ canvas {
 }
 
 .info-btn:hover:hover {
-
     transform: scale(1.1);
 }
 
 .info-btn img {
     width: 32px;
     height: 32px;
+}
+
+.info-btn-in-game {
+    margin: 8px;
+    border-radius: 5px;
+    font-family: Arial;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    transition: transform 100ms ease-in, background 100ms ease-in;
+    cursor: pointer;
+}
+
+.info-btn-in-game img {
+    width: 32px;
+    height: 32px;
+}
+
+.info-btn-in-game:hover:hover {
+    transform: scale(1.1);
+}
+
+#inGameHelpMenu {
+    position: sticky;
+    bottom: 610px;
 }
 
 .win {

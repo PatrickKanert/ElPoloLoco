@@ -8,9 +8,8 @@ let winSound = new Audio("audio/win2.mp3");
 let loseSound = new Audio("audio/lose.mp3");
 let collect = new Audio("audio/collect_coin.mp3");
 
-let globalVolume = 0.1; // Beispiel: 50% Lautstärke
+let globalVolume = 0.05;
 
-// Funktion, um die Lautstärke für alle Sounds anzupassen
 function setVolume(level) {
   jumpSound.volume = level;
   glassSound.volume = level;

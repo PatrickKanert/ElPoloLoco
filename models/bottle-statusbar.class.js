@@ -17,29 +17,29 @@ class BottleStatusBar extends DrawableObject {
     this.y = 80;
     this.width = 200;
     this.height = 60;
-    this.setPercentage(0); // Set initial percentage to 0
+    this.setPercentage(0);
   }
 
   setPercentage(bottles) {
-    this.percentage = bottles * 10; // Set percentage based on number of bottles
-    this.percentage = Math.min(this.percentage, 100); // Cap at 100%
+    this.percentage = bottles * 10;
+    this.percentage = Math.min(this.percentage, 100);
     let path = this.IMAGES_BOTTLE[this.resolveImageIndex()];
     this.img = this.imageCache[path];
   }
 
   resolveImageIndex() {
     if (this.percentage >= 100) {
-      return 5; // 5 Bottles
+      return 5;
     } else if (this.percentage >= 80) {
-      return 4; // 4 Bottles
+      return 4;
     } else if (this.percentage >= 60) {
-      return 3; // 3 Bottles
+      return 3;
     } else if (this.percentage >= 40) {
-      return 2; // 2 Bottles
+      return 2;
     } else if (this.percentage >= 20) {
-      return 1; // 1 Bottle
+      return 1;
     } else {
-      return 0; // 0 Bottles
+      return 0;
     }
   }
 }
