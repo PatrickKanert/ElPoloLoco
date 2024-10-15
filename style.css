@@ -48,7 +48,6 @@ canvas {
     transform: translate(0, -80px);
 }
 
-
 .start-screen {
     display: flex;
     justify-content: space-between;
@@ -65,7 +64,6 @@ canvas {
     transform: translate(-50%, -50%);
     transition: opacity 1s ease-in-out;
     opacity: 1;
-
 }
 
 .fade-out {
@@ -195,7 +193,6 @@ canvas {
 }
 
 .win-img {
-
     width: 400px;
 }
 
@@ -204,7 +201,6 @@ canvas {
     height: 100%;
     border-radius: 8px;
 }
-
 
 .endscreen-win-button {
     display: flex;
@@ -233,6 +229,10 @@ canvas {
 
 }
 
+.keyboard-button-position {
+    position: relative;
+    right: 70px;
+}
 
 .panel-wrapper {
     display: flex;
@@ -243,7 +243,6 @@ canvas {
 .panel-wrapper img {
     width: 40px;
 }
-
 
 @media only screen and (max-width: 720px) {
     canvas {
@@ -289,6 +288,21 @@ canvas {
 
     .win-img {
         width: 300px;
+    }
+
+    #helpMenu {
+        position: sticky;
+        bottom: 137px;
+        right: 245px;
+    }
+
+    .info-btn {
+        margin: 0;
+        transition: none;
+    }
+
+    .info-btn:hover:hover {
+        transform: none;
     }
 }
 

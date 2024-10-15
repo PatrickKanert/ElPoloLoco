@@ -10,12 +10,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Frijole&display=swap" rel="stylesheet">
-
     <script src="js/audio.js"></script>
     <script src="models/drawable-objects.class.js"></script>
     <script src="models/movable-object.class.js"></script>
     <script src="models/throwable-object.class.js"></script>
-
     <script src="models/character.class.js"></script>
     <script src="models/chicken.class.js"></script>
     <script src="models/bottle.class.js"></script>
@@ -23,7 +21,6 @@
     <script src="models/coin-statusbar.class.js"></script>
     <script src="models/bottle-statusbar.class.js"></script>
     <script src="models/enboss-statusbar.class.js"></script>
-
     <script src="models/cloud.class.js"></script>
     <script src="models/world.class.js"></script>
     <script src="models/background-object.class.js"></script>
@@ -39,23 +36,17 @@
 
 <body onload="init()">
     <h1>El pollo loco</h1>
-
     <div class="content">
         <div class="d-none" id="winOrLoseScreen">
-
         </div>
-
         <div class="start-screen" id="startScreen">
-
             <div id="helpMenu">
                 <button id="keyboardInfo" onclick="toggleKeyboardInfo()" class="info-btn"> <img
                         src="./img/keyboard.png"></button>
                 <button id="info" onclick="openInfo()" class="info-btn"> <img src="./img/info.png" alt=""></button>
-
                 <button id="soundMute" onclick="soundMute()" class="info-btn"> <img id="soundOff"
                         src="./img/sound_off.png"> <img class="d-none" id="soundOn" src="./img/sound_on.png"> </button>
             </div>
-
             <div id="button" class="start-button">
                 <button onclick="startGame()" class="btn">Start <br> the Game!</button>
             </div>
@@ -63,10 +54,8 @@
                 <img src="./img/key_assignment.png">
             </div>
         </div>
-
         <canvas id="canvas" width="720" height="480">
         </canvas>
-
         <div class="hud">
             <div class="panel-wrapper">
                 <img id="btnLeft" src="./img/mobile_buttons/arrow_left.png" alt="">
@@ -77,10 +66,7 @@
                 <img id="btnThrow" src="./img/mobile_buttons/throw.png" alt="">
             </div>
         </div>
-
-
     </div>
-
 </body>
 
 </html>

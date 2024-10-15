@@ -2,7 +2,7 @@ class Chicken extends MovableObject {
   width = 70;
   height = 70;
   y = 375;
-  isDead = false; // Flag to check if chicken is dead
+  isDead = false;
 
   IMAGES_WALKING = [
     "img/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
@@ -16,8 +16,8 @@ class Chicken extends MovableObject {
     super().loadImage("img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_DEAD);
-    this.x = 400 + Math.random() * 2200; // Randomize position
-    this.speed = 0.15 + Math.random() * 0.5; // Randomize speed
+    this.x = 400 + Math.random() * 2200;
+    this.speed = 0.15 + Math.random() * 0.5;
     this.animate();
   }
 

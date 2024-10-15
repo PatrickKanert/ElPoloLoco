@@ -65,17 +65,20 @@ function toggleKeyboardInfo() {
   const soundMute = document.getElementById("soundMute");
   const button = document.getElementById("button");
   const keyAssignment = document.getElementById("keyAssignment");
+  const keyboardInfo = document.getElementById("keyboardInfo");
 
   if (keyboardInfoVisible) {
     info.classList.remove("d-none");
     soundMute.classList.remove("d-none");
     button.classList.remove("d-none");
     keyAssignment.classList.add("d-none");
+    keyboardInfo.classList.remove("keyboard-button-position");
   } else {
     info.classList.add("d-none");
     soundMute.classList.add("d-none");
     button.classList.add("d-none");
     keyAssignment.classList.remove("d-none");
+    keyboardInfo.classList.add("keyboard-button-position");
   }
 
   keyboardInfoVisible = !keyboardInfoVisible;
@@ -102,6 +105,6 @@ function soundMute() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  keyboard = new Keyboard(); // Hier wird die Keyboard-Instanz erstellt
-  init(); // Und dann wird die init-Funktion aufgerufen
+  keyboard = new Keyboard();
+  init();
 });
