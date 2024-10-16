@@ -159,6 +159,7 @@ class Endboss extends MovableObject {
 
     this.isHurt = true;
     this.playAnimation(this.IMAGES_HURT);
+    chickenSound.play();
 
     this.hurtTimeout = setTimeout(() => this.endHurtAnimation(), 500);
   }

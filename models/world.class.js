@@ -130,10 +130,13 @@ class World {
   }
 
   displayWinLoseScreen(isWin) {
-    const winOrLoseScreen = document.getElementById("winOrLoseScreen");
-    winOrLoseScreen.classList.remove("d-none");
-    winOrLoseScreen.classList.add(isWin ? "win" : "lose");
-    winOrLoseScreen.innerHTML = isWin ? htmlWin() : htmlLose();
+    document.getElementById("winOrLoseScreen").classList.remove("d-none");
+    document
+      .getElementById("winOrLoseScreen")
+      .classList.add(isWin ? "win" : "lose");
+    document.getElementById("winOrLoseScreen").innerHTML = isWin
+      ? htmlWin()
+      : htmlLose();
   }
 
   winLose() {
@@ -175,23 +178,18 @@ class World {
   draw() {
     if (this.gameOver) return;
 
-    // Bildschirm leeren
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // Hintergrundobjekte zeichnen
     if (this.level && this.level.backgroundObjects) {
       this.drawBackgroundObjects();
     }
 
-    // Levelobjekte zeichnen (Wolken, Gegner, Charakter etc.)
     if (this.level) {
       this.drawLevelObjects();
     }
 
-    // Statusleisten zeichnen (immer im Vordergrund)
     this.drawStatusBars();
 
-    // Fortsetzen der Animation
     this.continueDrawing();
   }
 

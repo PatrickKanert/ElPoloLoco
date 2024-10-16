@@ -63,40 +63,29 @@ function restartGame() {
 }
 
 function toggleKeyboardInfo() {
-  const info = document.getElementById("info");
-  const soundMute = document.getElementById("soundMute");
-  const button = document.getElementById("button");
-  const keyAssignment = document.getElementById("keyAssignment");
-  const keyboardInfo = document.getElementById("keyboardInfo");
-
   if (keyboardInfoVisible) {
-    info.classList.remove("d-none");
-    soundMute.classList.remove("d-none");
-    button.classList.remove("d-none");
-    keyAssignment.classList.add("d-none");
-    keyboardInfo.classList.remove("keyboard-button-position");
+    document.getElementById("info").classList.remove("d-none");
+    document.getElementById("soundMute").classList.remove("d-none");
+    document.getElementById("button").classList.remove("d-none");
+    document.getElementById("keyAssignment").classList.add("d-none");
   } else {
-    info.classList.add("d-none");
-    soundMute.classList.add("d-none");
-    button.classList.add("d-none");
-    keyAssignment.classList.remove("d-none");
-    keyboardInfo.classList.add("keyboard-button-position");
+    document.getElementById("info").classList.add("d-none");
+    document.getElementById("soundMute").classList.add("d-none");
+    document.getElementById("button").classList.add("d-none");
+    document.getElementById("keyAssignment").classList.remove("d-none");
   }
 
   keyboardInfoVisible = !keyboardInfoVisible;
 }
 
 function soundMute() {
-  const soundOnIcon = document.getElementById("soundOn");
-  const soundOffIcon = document.getElementById("soundOff");
-
   if (isSoundMuted) {
-    soundOffIcon.classList.add("d-none");
-    soundOnIcon.classList.remove("d-none");
+    document.getElementById("soundOff").classList.add("d-none");
+    document.getElementById("soundOn").classList.remove("d-none");
     playSound.play();
   } else {
-    soundOnIcon.classList.add("d-none");
-    soundOffIcon.classList.remove("d-none");
+    document.getElementById("soundOn").classList.add("d-none");
+    document.getElementById("soundOff").classList.remove("d-none");
     playSound.pause();
   }
 
