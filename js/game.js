@@ -6,10 +6,10 @@ let isInGameMuted = true;
 let intervalIds = [];
 
 function init() {
+  checkScreenOrientation();
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
   world.setLevel(level1);
-  console.log("My Character is", world.character);
 }
 
 function setStoppableInterval(fn, time) {
@@ -22,7 +22,6 @@ function stopGame() {
 }
 
 function resetGame() {
-  console.log("Game reset");
   stopGame();
   world = null;
   intervalIds = [];
@@ -95,13 +94,10 @@ function soundMute() {
     soundOffIcon.classList.add("d-none");
     soundOnIcon.classList.remove("d-none");
     playSound.play();
-    console.log("Sound eingeschaltet");
   } else {
     soundOnIcon.classList.add("d-none");
     soundOffIcon.classList.remove("d-none");
     playSound.pause();
-
-    console.log("Sound ausgeschaltet");
   }
 
   isSoundMuted = !isSoundMuted;
@@ -109,18 +105,17 @@ function soundMute() {
 
 function checkScreenOrientation() {
   if (window.innerWidth < 950 && window.innerHeight > 800) {
+    document.getElementById("rotateScreen").classList.remove("d-none");
     document.getElementById("rotateScreen").style.display = "flex";
     document.getElementById("content").classList.add("d-none");
   } else {
-    document.getElementById("rotateScreen").style.display = "none";
+    document.getElementById("rotateScreen").classList.add("d-none");
     document.getElementById("content").classList.remove("d-none");
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  checkScreenOrientation();
   keyboard = new Keyboard();
   init();
-
   window.addEventListener("resize", checkScreenOrientation);
 });

@@ -2,7 +2,6 @@ let level1;
 
 function initLevel() {
   level1 = new Level(
-    // Feinde
     [
       new Chicken(),
       new Chicken(),
@@ -12,10 +11,8 @@ function initLevel() {
       new SmallChicken(),
     ],
 
-    // Wolken
-    [new Cloud()],
+    [new Cloud(), new Cloud(), new Cloud()],
 
-    // Neue collectibles Gruppe für Coins und Bottles
     [
       new Coin(400, 250),
       new Coin(500, 150),
@@ -40,7 +37,6 @@ function initLevel() {
       new Bottle(),
     ],
 
-    // Hintergrundobjekte
     [
       new BackgroundObject("img/5_background/layers/air.png", -719),
       new BackgroundObject("img/5_background/layers/3_third_layer/2.png", -719),

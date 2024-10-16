@@ -226,7 +226,6 @@ canvas {
     display: none;
     justify-content: space-between;
     width: 100%;
-
 }
 
 .keyboard-button-position {
@@ -242,6 +241,25 @@ canvas {
 
 .panel-wrapper img {
     width: 40px;
+}
+
+.rotate-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    display: none;
+}
+
+.rotate-screen img {
+    max-width: 80%;
+    max-height: 80%;
 }
 
 @media only screen and (max-width: 950px) {
@@ -279,12 +297,6 @@ canvas {
         width: 300px;
     }
 
-    /* #helpMenu {
-        position: sticky;
-        bottom: 137px;
-        right: 245px;
-    } */
-
     .info-btn {
         margin: 0;
         transition: none;
@@ -292,6 +304,11 @@ canvas {
 
     .info-btn:hover:hover {
         transform: none;
+    }
+
+    h1 {
+        position: absolute;
+        top: 15px;
     }
 }
 
@@ -309,8 +326,6 @@ canvas {
         font-size: 32px;
     }
 }
-
-
 
 @media only screen and (max-height: 480px) {
     canvas {
@@ -333,9 +348,7 @@ canvas {
         height: 100%;
         border-radius: 0px;
     }
-
 }
-
 
 @media only screen and (min-height: 480px) and (max-height: 800px) {
     h1 {
@@ -347,23 +360,8 @@ canvas {
     }
 }
 
-.rotate-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    /* Halbtransparentes Schwarz */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    display: none;
-    /* Versteckt es standardmäßig */
-}
-
-.rotate-screen img {
-    max-width: 80%;
-    max-height: 80%;
+@media only screen and (max-height: 800px) {
+    #helpMenu {
+        padding: 16px;
+    }
 }

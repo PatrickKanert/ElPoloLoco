@@ -149,9 +149,6 @@ class Endboss extends MovableObject {
   checkCharacterCollision() {
     if (this.isColliding(world.character)) {
       world.character.hitFromEndboss(19);
-      console.log(
-        "Character hit by Endboss! Energy left: " + world.character.energy + "%"
-      );
     }
   }
 
@@ -174,7 +171,6 @@ class Endboss extends MovableObject {
   }
 
   dieEndboss() {
-    console.log("Endboss is dead");
     this.isDead = true;
     this.y = 100;
     this.playAnimation(this.IMAGES_DEAD);

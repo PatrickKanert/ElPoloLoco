@@ -78,7 +78,6 @@ class MovableObject extends DrawableObject {
       this.dieEndboss();
     } else {
       this.showHurtAnimation();
-      console.log(`Endboss hit! Energy left: ${this.energy}%`);
     }
     world.endbossStatusBar.setPercentage(this.energy);
   }
@@ -125,7 +124,6 @@ class MovableObject extends DrawableObject {
   }
 
   kill() {
-    console.log("Chicken killed");
     this.isDead = true;
     this.speed = 0;
     this.playAnimation(this.IMAGES_DEAD);
