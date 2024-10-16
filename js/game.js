@@ -40,10 +40,9 @@ function startGame() {
   keyboard = new Keyboard();
   world.setLevel(level1);
 
-  document.getElementById("winOrLoseScreen");
-  document.getElementById("startScreen");
-  startScreen.classList.add("fade-out");
-  winOrLoseScreen.classList.remove("d-none");
+  document.getElementById("winOrLoseScreen").classList.remove("d-none");
+  document.getElementById("startScreen").classList.add("fade-out");
+  document.getElementById("hud").classList.remove("d-none");
 
   setTimeout(function () {
     startScreen.classList.add("d-none");
@@ -108,7 +107,20 @@ function soundMute() {
   isSoundMuted = !isSoundMuted;
 }
 
+function checkScreenOrientation() {
+  if (window.innerWidth < 950 && window.innerHeight > 800) {
+    document.getElementById("rotateScreen").style.display = "flex";
+    document.getElementById("content").classList.add("d-none");
+  } else {
+    document.getElementById("rotateScreen").style.display = "none";
+    document.getElementById("content").classList.remove("d-none");
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  checkScreenOrientation();
   keyboard = new Keyboard();
   init();
+
+  window.addEventListener("resize", checkScreenOrientation);
 });

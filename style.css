@@ -223,7 +223,7 @@ canvas {
 .hud {
     position: absolute;
     bottom: 10px;
-    display: none !important;
+    display: none;
     justify-content: space-between;
     width: 100%;
 
@@ -244,17 +244,6 @@ canvas {
     width: 40px;
 }
 
-@media only screen and (max-width: 720px) {
-    canvas {
-        width: 100%;
-        border: none;
-    }
-
-    .start-screen {
-        width: 100%;
-    }
-}
-
 @media only screen and (max-width: 950px) {
     canvas {
         display: block;
@@ -267,7 +256,7 @@ canvas {
     }
 
     .hud {
-        display: flex !important;
+        display: flex;
     }
 
     .lose {
@@ -290,11 +279,11 @@ canvas {
         width: 300px;
     }
 
-    #helpMenu {
+    /* #helpMenu {
         position: sticky;
         bottom: 137px;
         right: 245px;
-    }
+    } */
 
     .info-btn {
         margin: 0;
@@ -305,6 +294,22 @@ canvas {
         transform: none;
     }
 }
+
+@media only screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
+        border: none;
+    }
+
+    .start-screen {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+}
+
 
 
 @media only screen and (max-height: 480px) {
@@ -317,6 +322,7 @@ canvas {
         position: relative;
         transform: none;
         width: 100%;
+        margin-top: 0px;
     }
 
     h1 {
@@ -328,4 +334,36 @@ canvas {
         border-radius: 0px;
     }
 
+}
+
+
+@media only screen and (min-height: 480px) and (max-height: 800px) {
+    h1 {
+        display: none !important;
+    }
+
+    .content {
+        margin-top: 88px;
+    }
+}
+
+.rotate-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Halbtransparentes Schwarz */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    display: none;
+    /* Versteckt es standardmäßig */
+}
+
+.rotate-screen img {
+    max-width: 80%;
+    max-height: 80%;
 }
