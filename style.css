@@ -33,7 +33,7 @@ canvas {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .d-block {
@@ -223,7 +223,7 @@ canvas {
 .hud {
     position: absolute;
     bottom: 10px;
-    display: none;
+    display: none !important;
     justify-content: space-between;
     width: 100%;
 
@@ -267,7 +267,7 @@ canvas {
     }
 
     .hud {
-        display: flex;
+        display: flex !important;
     }
 
     .lose {
@@ -320,7 +320,7 @@ canvas {
     }
 
     h1 {
-        display: none;
+        display: none !important;
     }
 
     .start-screen {

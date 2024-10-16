@@ -131,7 +131,6 @@ class World {
 
   displayWinLoseScreen(isWin) {
     const winOrLoseScreen = document.getElementById("winOrLoseScreen");
-    winOrLoseScreen.classList.add("d-block");
     winOrLoseScreen.classList.remove("d-none");
     winOrLoseScreen.classList.add(isWin ? "win" : "lose");
     winOrLoseScreen.innerHTML = isWin ? htmlWin() : htmlLose();

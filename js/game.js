@@ -37,10 +37,13 @@ function startGame() {
   resetGame();
   init();
   initLevel();
+  keyboard = new Keyboard();
   world.setLevel(level1);
 
+  document.getElementById("winOrLoseScreen");
   document.getElementById("startScreen");
   startScreen.classList.add("fade-out");
+  winOrLoseScreen.classList.remove("d-none");
 
   setTimeout(function () {
     startScreen.classList.add("d-none");
@@ -51,11 +54,12 @@ function restartGame() {
   resetGame();
   init();
   initLevel();
+  keyboard = new Keyboard();
   world.setLevel(level1);
 
   document.getElementById("winOrLoseScreen");
 
-  winOrLoseScreen.classList.add("fade-out");
+  winOrLoseScreen.classList.add("d-none");
 
   setTimeout(function () {}, 1000);
 }
