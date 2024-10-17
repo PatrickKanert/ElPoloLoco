@@ -86,8 +86,6 @@ class Character extends MovableObject {
   }
 
   handleMovement() {
-    runningSound.pause();
-
     if (this.world.level && this.world.level.level_end_x) {
       this.handleHorizontalMovement();
       this.handleJump();
@@ -97,18 +95,30 @@ class Character extends MovableObject {
   }
 
   handleHorizontalMovement() {
-    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+    const isMovingRight =
+      this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
+    const isMovingLeft = this.world.keyboard.LEFT && this.x > 0;
+
+    if (isMovingRight) {
       this.moveRight();
-      runningSound.play();
       this.otherDirection = false;
+      this.updateLastMoveTime();
+    } else if (isMovingLeft) {
+      this.moveLeft();
+      this.otherDirection = true;
       this.updateLastMoveTime();
     }
 
-    if (this.world.keyboard.LEFT && this.x > 0) {
-      this.moveLeft();
-      runningSound.play();
-      this.otherDirection = true;
-      this.updateLastMoveTime();
+    this.manageRunningSound(isMovingRight || isMovingLeft);
+  }
+
+  manageRunningSound(isMoving) {
+    if (isMoving) {
+      if (!this.isAboveGround()) {
+        audioManager.playSound("running");
+      }
+    } else {
+      audioManager.stopSound("running");
     }
   }
 
@@ -116,6 +126,11 @@ class Character extends MovableObject {
     if (this.world.keyboard.SPACE && !this.isAboveGround()) {
       this.jump();
       this.updateLastMoveTime();
+    }
+
+    // Stoppe den Running-Sound, wenn der Charakter springt, auch wenn er sich bewegt
+    if (this.isAboveGround()) {
+      audioManager.stopSound("running");
     }
   }
 

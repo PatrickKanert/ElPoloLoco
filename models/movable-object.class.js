@@ -23,6 +23,7 @@ class MovableObject extends DrawableObject {
   }
 
   collectCoin() {
+    audioManager.playSound("collect");
     return (this.coins += 1);
   }
 
@@ -120,7 +121,7 @@ class MovableObject extends DrawableObject {
 
   jump() {
     this.speedY = 30;
-    jumpSound.play();
+    audioManager.playSound("jump");
   }
 
   kill() {

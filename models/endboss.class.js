@@ -53,8 +53,8 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
 
-  constructor() {
-    super().loadImage(this.IMAGES_WATCHING[0]);
+  constructor(audioManager) {
+    super(audioManager).loadImage(this.IMAGES_WATCHING[0]);
     this.loadImages(this.IMAGES_WATCHING);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_ATTACK);
@@ -159,7 +159,7 @@ class Endboss extends MovableObject {
 
     this.isHurt = true;
     this.playAnimation(this.IMAGES_HURT);
-    chickenSound.play();
+    audioManager.playSound("chicken");
 
     this.hurtTimeout = setTimeout(() => this.endHurtAnimation(), 500);
   }

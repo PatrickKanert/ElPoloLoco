@@ -81,11 +81,9 @@ class World {
       if (this.character.isColliding(collectible)) {
         if (collectible instanceof Coin) {
           this.character.collectCoin();
-          collect.play();
           this.coinStatusbar.setPercentage(this.character.coins);
           this.level.collectibles.splice(index, 1);
         } else if (collectible instanceof Bottle) {
-          collect.play();
           this.character.collectBottle();
           this.bottleStatusBar.setPercentage(this.character.bottles);
           this.level.collectibles.splice(index, 1);
@@ -162,16 +160,16 @@ class World {
   }
 
   handleGameLoss(showScreen) {
-    loseSound.play();
     showScreen(false);
     stopGame();
+    audioManager.playSound("lose");
   }
 
   handleGameWin(showScreen) {
-    winSound.play();
     setTimeout(() => {
       showScreen(true);
       stopGame();
+      audioManager.playSound("win");
     }, 1000);
   }
 

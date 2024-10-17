@@ -29,7 +29,7 @@ class ThrowableObject extends MovableObject {
   throw() {
     this.speedY = 30;
     this.applyGravityForBottle();
-    throwSound.play();
+    audioManager.playSound("throw");
     let direction = world.character.otherDirection ? -1 : 1;
 
     this.rotationInterval = setInterval(() => {
@@ -59,7 +59,7 @@ class ThrowableObject extends MovableObject {
   bottleLand() {
     clearInterval(this.rotationInterval);
     clearInterval(this.gravityInterval);
-    glassSound.play();
+    audioManager.playSound("glass");
     setStoppableInterval(() => {
       this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
     }, 40);

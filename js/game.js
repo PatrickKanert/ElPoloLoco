@@ -2,12 +2,14 @@ let canvas;
 let world;
 let keyboardInfoVisible = false;
 let isSoundMuted = true;
-let isInGameMuted = true;
 let intervalIds = [];
+let audioManager;
 
 function init() {
   checkScreenOrientation();
   canvas = document.getElementById("canvas");
+  audioManager = new AudioManager();
+  audioManager.mute();
   world = new World(canvas, keyboard);
   world.setLevel(level1);
 }
@@ -79,17 +81,17 @@ function toggleKeyboardInfo() {
 }
 
 function soundMute() {
-  if (isSoundMuted) {
-    document.getElementById("soundOff").classList.add("d-none");
-    document.getElementById("soundOn").classList.remove("d-none");
-    playSound.play();
-  } else {
+  audioManager.toggleMute(); // Verwende toggleMute, um den Stummstatus zu ändern
+
+  // Aktualisiere die UI je nach Stummstatus
+  if (audioManager.isMuted) {
     document.getElementById("soundOn").classList.add("d-none");
     document.getElementById("soundOff").classList.remove("d-none");
-    playSound.pause();
+  } else {
+    document.getElementById("soundOff").classList.add("d-none");
+    document.getElementById("soundOn").classList.remove("d-none");
+    audioManager.playSound("playSound"); // Optional, um den Sound abzuspielen
   }
-
-  isSoundMuted = !isSoundMuted;
 }
 
 function checkScreenOrientation() {
