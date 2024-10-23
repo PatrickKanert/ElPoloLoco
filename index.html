@@ -41,22 +41,19 @@
         <div class="d-none" id="winOrLoseScreen">
         </div>
         <div class="start-screen" id="startScreen">
-            <div id="helpMenu">
-                <button id="keyboardInfo" onclick="toggleKeyboardInfo()" class="info-btn"> <img
-                        src="./img/keyboard.png"></button>
-                <button id="info" onclick="openInfo()" class="info-btn"> <img src="./img/info.png" alt=""></button>
-                <button id="soundMute" onclick="soundMute()" class="info-btn"> <img id="soundOff"
-                        src="./img/sound_off.png"> <img class="d-none" id="soundOn" src="./img/sound_on.png"> </button>
-            </div>
+
             <div id="button" class="start-button">
                 <button onclick="startGame()" class="btn">Start <br> the Game!</button>
             </div>
             <div id="keyAssignment" class="d-none key-assignment">
-                <img src="./img/key_assignment.png">
+                <img src="./img/key_assignment.png" alt="Key Assignment">
             </div>
+
         </div>
+
         <canvas id="canvas" width="720" height="480">
         </canvas>
+
         <div id="hud" class="hud d-none">
             <div class="panel-wrapper">
                 <img id="btnLeft" src="./img/mobile_buttons/arrow_left.png" alt="">
@@ -67,6 +64,22 @@
                 <img id="btnThrow" src="./img/mobile_buttons/throw.png" alt="">
             </div>
         </div>
+    </div>
+    <div id="helpMenu" class="help-menu">
+        <button id="keyboardInfo" onclick="toggleKeyboardInfo()" class="info-btn">
+            <img src="./img/keyboard.png">
+        </button>
+        <button id="info" onclick="openInfo()" class="info-btn">
+            <img src="./img/info.png" alt="">
+        </button>
+        <button id="soundMute" onclick="toggleSound()" class="info-btn">
+            <img id="soundOffIcon" src="./img/sound_off.png" alt="Sound Off">
+            <img id="soundOnIcon" class="d-none" src="./img/sound_on.png" alt="Sound On">
+        </button>
+        <button id="musicMute" onclick="toggleMusic()" class="info-btn">
+            <img id="musicOffIcon" src="./img/music_off.png" alt="Sound Off">
+            <img id="musicOnIcon" class="d-none" src="./img/music_on.png" alt="Sound On">
+        </button>
     </div>
 </body>
 

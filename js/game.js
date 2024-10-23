@@ -1,15 +1,13 @@
 let canvas;
 let world;
 let keyboardInfoVisible = false;
-let isSoundMuted = true;
 let intervalIds = [];
-let audioManager;
+audioManager = new AudioManager();
 
 function init() {
+  initLevel();
   checkScreenOrientation();
   canvas = document.getElementById("canvas");
-  audioManager = new AudioManager();
-  audioManager.mute();
   world = new World(canvas, keyboard);
   world.setLevel(level1);
 }
@@ -37,13 +35,16 @@ function goHome() {
 function startGame() {
   resetGame();
   init();
-  initLevel();
   keyboard = new Keyboard();
   world.setLevel(level1);
 
   document.getElementById("winOrLoseScreen").classList.remove("d-none");
   document.getElementById("startScreen").classList.add("fade-out");
   document.getElementById("hud").classList.remove("d-none");
+  document.getElementById("keyboardInfo").classList.add("d-none");
+  document.getElementById("info").classList.add("d-none");
+  document.getElementById("helpMenu").classList.remove("help-menu");
+  document.getElementById("helpMenu").classList.add("help-menu-in-game");
 
   setTimeout(function () {
     startScreen.classList.add("d-none");
@@ -53,7 +54,6 @@ function startGame() {
 function restartGame() {
   resetGame();
   init();
-  initLevel();
   keyboard = new Keyboard();
   world.setLevel(level1);
 
@@ -80,18 +80,30 @@ function toggleKeyboardInfo() {
   keyboardInfoVisible = !keyboardInfoVisible;
 }
 
-function soundMute() {
-  audioManager.toggleMute(); // Verwende toggleMute, um den Stummstatus zu ändern
+function toggleSound() {
+  audioManager.toggleSoundMute(); // Schalte den Sound an/aus
+  updateSoundIcons(); // Aktualisiere die Icons
+}
 
-  // Aktualisiere die UI je nach Stummstatus
-  if (audioManager.isMuted) {
-    document.getElementById("soundOn").classList.add("d-none");
-    document.getElementById("soundOff").classList.remove("d-none");
-  } else {
-    document.getElementById("soundOff").classList.add("d-none");
-    document.getElementById("soundOn").classList.remove("d-none");
-    audioManager.playSound("playSound"); // Optional, um den Sound abzuspielen
-  }
+function toggleMusic() {
+  audioManager.toggleMusicMute(); // Schalte die Musik an/aus
+  updateMusicIcons(); // Aktualisiere die Icons
+}
+
+function updateSoundIcons() {
+  const isMuted = audioManager.isSoundMuted;
+  document.getElementById("soundOffIcon").classList.toggle("d-none", !isMuted);
+  document.getElementById("soundOnIcon").classList.toggle("d-none", isMuted);
+}
+
+function updateMusicIcons() {
+  const isMusicMuted = audioManager.isMusicMuted;
+  document
+    .getElementById("musicOffIcon")
+    .classList.toggle("d-none", !isMusicMuted);
+  document
+    .getElementById("musicOnIcon")
+    .classList.toggle("d-none", isMusicMuted);
 }
 
 function checkScreenOrientation() {
@@ -109,4 +121,11 @@ document.addEventListener("DOMContentLoaded", () => {
   keyboard = new Keyboard();
   init();
   window.addEventListener("resize", checkScreenOrientation);
+});
+
+document.addEventListener("keydown", function (event) {
+  if (event.key === " ") {
+    // Leertaste
+    event.preventDefault(); // Standardverhalten verhindern
+  }
 });

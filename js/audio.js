@@ -5,80 +5,93 @@ class AudioManager {
       glass: new Audio("./audio/glass.mp3"),
       throw: new Audio("./audio/throw.mp3"),
       chicken: new Audio("./audio/chicken.mp3"),
-      play: new Audio("./audio/playsound.mp3"),
       running: new Audio("./audio/running.mp3"),
       win: new Audio("./audio/win2.mp3"),
       lose: new Audio("./audio/lose.mp3"),
       collect: new Audio("./audio/collect.mp3"),
+    };
+
+    this.music = {
       playSound: new Audio("./audio/playsound.mp3"),
     };
 
-    // Error listener for debugging audio loading
-    for (const sound in this.sounds) {
-      this.sounds[sound].addEventListener("error", () => {
-        console.error(`Error loading sound: ${sound}`);
-      });
-    }
+    this.isMusicMuted = true;
+    this.isSoundMuted = true;
+    this.musicVolume = 0.05;
+    this.globalVolume = 1.0;
 
-    this.isMuted = true; // Standardmäßig stumm
-    this.globalVolume = 1; // Standard-Lautstärke
-    this.playSoundVolume = 0.01; // Standardlautstärke für playSound
+    this.music.playSound.volume = this.musicVolume;
+    this.music.playSound.muted = this.isMusicMuted;
 
-    // Setze die Lautstärke für alle Sounds auf den globalen Wert
     this.setVolume(this.globalVolume);
-
-    // Setze die Lautstärke für playSound
-    this.setSoundVolume("playSound", this.playSoundVolume);
   }
 
   playSound(soundName) {
-    if (!this.isMuted && this.sounds[soundName]) {
-      this.sounds[soundName].currentTime = 0; // Setze den Sound zurück
-      this.sounds[soundName].play();
+    if (!this.isSoundMuted && this.sounds[soundName]) {
+      this.sounds[soundName].volume = this.globalVolume;
+      if (
+        this.sounds[soundName].paused ||
+        this.sounds[soundName].currentTime === 0
+      ) {
+        this.sounds[soundName].currentTime = 0;
+        this.sounds[soundName].play().catch((err) => {
+          console.error(`Fehler beim Abspielen von ${soundName}:`, err);
+        });
+      }
     }
   }
 
   stopSound(soundName) {
     if (this.sounds[soundName]) {
       this.sounds[soundName].pause();
-      this.sounds[soundName].currentTime = 0; // Setze den Sound zurück
+      this.sounds[soundName].currentTime = 0;
     }
   }
 
-  mute() {
-    this.isMuted = true;
-    this.setVolume(0); // Setze die Lautstärke auf 0
-  }
-
-  unmute() {
-    this.isMuted = false;
-    this.setVolume(this.globalVolume); // Setze die Lautstärke zurück auf den globalen Wert
-  }
-
-  toggleMute() {
-    if (this.isMuted) {
-      this.unmute();
-    } else {
-      this.mute();
+  playMusic() {
+    if (!this.isMusicMuted) {
+      this.music.playSound.currentTime = 0;
+      this.music.playSound.play();
     }
+  }
+
+  stopMusic() {
+    this.music.playSound.pause();
+    this.music.playSound.currentTime = 0;
+  }
+
+  toggleSoundMute() {
+    this.isSoundMuted = !this.isSoundMuted;
+
+    if (!this.isSoundMuted) {
+      this.playSound();
+    }
+  }
+
+  toggleMusicMute() {
+    this.isMusicMuted = !this.isMusicMuted;
+    this.music.playSound.muted = this.isMusicMuted;
+    if (!this.isMusicMuted) {
+      this.playMusic();
+    }
+  }
+
+  setMusicVolume(volume) {
+    this.music.playSound.volume = volume;
   }
 
   setVolume(volume) {
+    this.globalVolume = volume;
     for (const sound in this.sounds) {
-      // Wenn der Sound playSound ist, verwende die spezielle Lautstärke
-      this.sounds[sound].volume =
-        sound === "playSound" ? this.playSoundVolume : volume;
+      this.sounds[sound].volume = volume;
     }
   }
 
   setSoundVolume(soundName, volume) {
     if (this.sounds[soundName]) {
-      this.sounds[soundName].volume = volume; // Setze die Lautstärke für den angegebenen Sound
-      if (soundName === "playSound") {
-        this.playSoundVolume = volume; // Speichere die Lautstärke für playSound
-      }
+      this.sounds[soundName].volume = volume;
     } else {
-      console.warn(`Sound ${soundName} does not exist.`);
+      console.warn(`Sound ${soundName} existiert nicht.`);
     }
   }
 }
