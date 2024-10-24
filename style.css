@@ -21,6 +21,8 @@ h1 {
 }
 
 canvas {
+    width: 720px;
+    height: 480px;
     background-color: black;
     border-radius: 16px;
     border: 6px solid sandybrown;
@@ -83,13 +85,13 @@ canvas {
 
 .help-menu {
     position: absolute;
-    bottom: 200px;
+    bottom: 8px;
 }
 
 .help-menu-in-game {
     position: absolute;
-    top: 220px;
-    right: 235px;
+    top: 0px;
+    right: 0px;
 }
 
 .btn {
