@@ -33,18 +33,14 @@
 </head>
 
 <body onload="resetGame()">
-
     <h1>El pollo loco</h1>
-
     <div id="rotateScreen" class="rotate-screen">
         <img src="./img/rotate-screen.png" alt="Bitte Gerät drehen">
     </div>
-
     <div id="content" class="content">
         <div class="d-none" id="winOrLoseScreen">
         </div>
         <div class="start-screen" id="startScreen">
-
             <div id="button" class="start-button">
                 <button onclick="startGame()" class="btn">Start <br> the Game!</button>
             </div>
@@ -52,14 +48,13 @@
                 <img src="./img/key_assignment.png" alt="Key Assignment">
             </div>
         </div>
-
         <div id="helpMenu" class="help-menu">
             <button id="keyboardInfo" onclick="toggleKeyboardInfo()" class="info-btn">
                 <img src="./img/keyboard.png">
             </button>
-            <button id="info" onclick="openInfo()" class="info-btn">
-                <img src="./img/info.png" alt="">
-            </button>
+            <a href="./impressum.html"><button id="info" class="info-btn">
+                    <img src="./img/info.png" alt="">
+                </button></a>
             <button id="soundMute" onclick="toggleSound()" class="info-btn">
                 <img id="soundOffIcon" src="./img/sound_off.png" alt="Sound Off">
                 <img id="soundOnIcon" class="d-none" src="./img/sound_on.png" alt="Sound On">
@@ -69,10 +64,8 @@
                 <img id="musicOnIcon" class="d-none" src="./img/music_on.png" alt="Sound On">
             </button>
         </div>
-
         <canvas id="canvas" width="720" height="480">
         </canvas>
-
         <div id="hud" class="hud d-none">
             <div class="panel-wrapper">
                 <img id="btnLeft" src="./img/mobile_buttons/arrow_left.png" alt="">
@@ -84,8 +77,6 @@
             </div>
         </div>
     </div>
-
-
 </body>
 
 </html>

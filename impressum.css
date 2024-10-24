@@ -1,0 +1,60 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: dimgrey;
+    margin: 0;
+    background-image: url(./img/background.png);
+}
+
+
+h1 {
+    font-family: 'zabras', Arial, Helvetica, sans-serif;
+    color: darkred;
+    font-size: 90px;
+    font-weight: normal;
+    text-shadow: 4px 2px 2px rgb(207, 166, 2);
+    margin: 16px;
+}
+
+div {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 20px;
+    white-space: pre-line;
+}
+
+#loom-companion-mv3 {
+    display: none;
+}
+
+.btn {
+    position: absolute;
+    top: 30px;
+    right: 120px;
+    margin: 16px;
+    border-radius: 5px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    transition: transform 100ms ease-in, background 100ms ease-in;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+}
+
+.btn img {
+    width: 32px;
+}

@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-  speed = 10;
+  speed = 8;
   y = 250;
   lastMoveTime = Date.now();
   idleTimeout = 10000;
