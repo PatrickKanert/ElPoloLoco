@@ -105,7 +105,6 @@ class Endboss extends MovableObject {
     if (Math.abs(distanceToCharacter) < 500) {
       this.startFollowing();
     }
-
     if (this.isFollowing) {
       this.followCharacter(distanceToCharacter);
     }

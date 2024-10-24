@@ -62,7 +62,6 @@ class MovableObject extends DrawableObject {
     } else {
       this.lastHit = new Date().getTime();
     }
-
     world.healthstatusBar.setPercentage(this.energy);
 
     setTimeout(() => {
@@ -90,7 +89,6 @@ class MovableObject extends DrawableObject {
     } else {
       this.lastHit = new Date().getTime();
     }
-
     world.healthstatusBar.setPercentage(this.energy);
   }
 

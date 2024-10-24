@@ -90,8 +90,6 @@ class AudioManager {
   setSoundVolume(soundName, volume) {
     if (this.sounds[soundName]) {
       this.sounds[soundName].volume = volume;
-    } else {
-      console.warn(`Sound ${soundName} existiert nicht.`);
     }
   }
 }

@@ -108,7 +108,6 @@ class Character extends MovableObject {
       this.otherDirection = true;
       this.updateLastMoveTime();
     }
-
     this.manageRunningSound(isMovingRight || isMovingLeft);
   }
 
@@ -127,8 +126,6 @@ class Character extends MovableObject {
       this.jump();
       this.updateLastMoveTime();
     }
-
-    // Stoppe den Running-Sound, wenn der Charakter springt, auch wenn er sich bewegt
     if (this.isAboveGround()) {
       audioManager.stopSound("running");
     }

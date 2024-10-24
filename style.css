@@ -4,7 +4,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     background-color: dimgrey;
     margin: 0;
     background-image: url(./img/background.png);
@@ -13,7 +13,10 @@ body {
 }
 
 h1 {
-    margin: 16px;
+    position: fixed;
+    top: 0px;
+    text-align: center;
+    margin: 24px;
     color: darkred;
     font-size: 90px;
     font-weight: normal;
@@ -21,8 +24,6 @@ h1 {
 }
 
 canvas {
-    width: 720px;
-    height: 480px;
     background-color: black;
     border-radius: 16px;
     border: 6px solid sandybrown;
@@ -48,7 +49,7 @@ canvas {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transform: translate(0, -50px);
+    transform: translate(0, -20px);
 }
 
 .start-screen {

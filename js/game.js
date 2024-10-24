@@ -38,6 +38,12 @@ function startGame() {
   keyboard = new Keyboard();
   world.setLevel(level1);
 
+  updateUIForGameStart();
+
+  hideStartScreenAfterDelay();
+}
+
+function updateUIForGameStart() {
   document.getElementById("winOrLoseScreen").classList.remove("d-none");
   document.getElementById("startScreen").classList.add("fade-out");
   document.getElementById("hud").classList.remove("d-none");
@@ -45,9 +51,11 @@ function startGame() {
   document.getElementById("info").classList.add("d-none");
   document.getElementById("helpMenu").classList.remove("help-menu");
   document.getElementById("helpMenu").classList.add("help-menu-in-game");
+}
 
+function hideStartScreenAfterDelay() {
   setTimeout(function () {
-    startScreen.classList.add("d-none");
+    document.getElementById("startScreen").classList.add("d-none");
   }, 1000);
 }
 
@@ -81,13 +89,13 @@ function toggleKeyboardInfo() {
 }
 
 function toggleSound() {
-  audioManager.toggleSoundMute(); // Schalte den Sound an/aus
-  updateSoundIcons(); // Aktualisiere die Icons
+  audioManager.toggleSoundMute();
+  updateSoundIcons();
 }
 
 function toggleMusic() {
-  audioManager.toggleMusicMute(); // Schalte die Musik an/aus
-  updateMusicIcons(); // Aktualisiere die Icons
+  audioManager.toggleMusicMute();
+  updateMusicIcons();
 }
 
 function updateSoundIcons() {
@@ -125,7 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("keydown", function (event) {
   if (event.key === " ") {
-    // Leertaste
-    event.preventDefault(); // Standardverhalten verhindern
+    event.preventDefault();
   }
 });

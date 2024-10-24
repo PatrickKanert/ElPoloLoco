@@ -7,7 +7,7 @@ class DrawableObject {
   height = 200;
   width = 100;
   groundLevel = 360;
-  debugMode = true;
+  debugMode = false;
 
   loadImage(path) {
     this.img = new Image();
@@ -62,7 +62,12 @@ class DrawableObject {
     const offsetY = 18;
     const smallerWidth = this.width - 36;
     const smallerHeight = this.height - 36;
-    return { offsetX, offsetY, smallerWidth, smallerHeight };
+    return {
+      offsetX,
+      offsetY,
+      smallerWidth,
+      smallerHeight,
+    };
   }
 
   calculateBottleFrameSize() {
@@ -70,7 +75,12 @@ class DrawableObject {
     const offsetY = 10;
     const smallerWidth = this.width - 20;
     const smallerHeight = this.height - 20;
-    return { offsetX, offsetY, smallerWidth, smallerHeight };
+    return {
+      offsetX,
+      offsetY,
+      smallerWidth,
+      smallerHeight,
+    };
   }
 
   calculateCharacterFrameSize() {
@@ -78,7 +88,12 @@ class DrawableObject {
     const offsetY = 70;
     const smallerWidth = this.width - 20;
     const smallerHeight = this.height - 70;
-    return { offsetX, offsetY, smallerWidth, smallerHeight };
+    return {
+      offsetX,
+      offsetY,
+      smallerWidth,
+      smallerHeight,
+    };
   }
 
   calculateEndbossFrameSize() {
@@ -86,7 +101,12 @@ class DrawableObject {
     const offsetY = 60;
     const smallerWidth = this.width;
     const smallerHeight = this.height - 70;
-    return { offsetX, offsetY, smallerWidth, smallerHeight };
+    return {
+      offsetX,
+      offsetY,
+      smallerWidth,
+      smallerHeight,
+    };
   }
 
   calculateDefaultFrameSize() {

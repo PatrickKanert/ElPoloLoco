@@ -47,23 +47,30 @@ class World {
 
   checkThrowObjects() {
     if (this.keyboard.D && !this.dKeyPressed && this.character.bottles > 0) {
-      this.dKeyPressed = true;
-      let bottle = new ThrowableObject(
-        this.character.x + 38,
-        this.character.y + 60
-      );
-      this.throwableObjects.push(bottle);
-      this.character.bottles--;
-      this.bottleStatusBar.setPercentage(this.character.bottles);
-
-      setTimeout(() => {
-        this.dKeyPressed = false;
-      }, 500);
+      this.throwBottle();
+      this.scheduleKeyReset();
     }
 
     if (!this.keyboard.D) {
       this.dKeyPressed = false;
     }
+  }
+
+  throwBottle() {
+    this.dKeyPressed = true;
+    let bottle = new ThrowableObject(
+      this.character.x + 38,
+      this.character.y + 60
+    );
+    this.throwableObjects.push(bottle);
+    this.character.bottles--;
+    this.bottleStatusBar.setPercentage(this.character.bottles);
+  }
+
+  scheduleKeyReset() {
+    setTimeout(() => {
+      this.dKeyPressed = false;
+    }, 1500);
   }
 
   checkCollisions() {
@@ -77,19 +84,31 @@ class World {
   }
 
   checkCollectibleCollision() {
+    const maxBottles = 10;
+
     this.level.collectibles.forEach((collectible, index) => {
       if (this.character.isColliding(collectible)) {
         if (collectible instanceof Coin) {
-          this.character.collectCoin();
-          this.coinStatusbar.setPercentage(this.character.coins);
-          this.level.collectibles.splice(index, 1);
+          this.collectCoin(collectible, index);
         } else if (collectible instanceof Bottle) {
-          this.character.collectBottle();
-          this.bottleStatusBar.setPercentage(this.character.bottles);
-          this.level.collectibles.splice(index, 1);
+          this.collectBottle(collectible, index, maxBottles);
         }
       }
     });
+  }
+
+  collectCoin(collectible, index) {
+    this.character.collectCoin();
+    this.coinStatusbar.setPercentage(this.character.coins);
+    this.level.collectibles.splice(index, 1);
+  }
+
+  collectBottle(collectible, index, maxBottles) {
+    if (this.character.bottles < maxBottles) {
+      this.character.collectBottle();
+      this.bottleStatusBar.setPercentage(this.character.bottles);
+      this.level.collectibles.splice(index, 1);
+    }
   }
 
   checkBottleEnemyCollision() {
@@ -175,19 +194,15 @@ class World {
 
   draw() {
     if (this.gameOver) return;
-
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
     if (this.level && this.level.backgroundObjects) {
       this.drawBackgroundObjects();
     }
-
     if (this.level) {
       this.drawLevelObjects();
     }
 
     this.drawStatusBars();
-
     this.continueDrawing();
   }
 
@@ -236,10 +251,8 @@ class World {
     if (mo.otherDirection) {
       this.flipImage(mo);
     }
-
     mo.draw(this.ctx);
     mo.drawFrame(this.ctx);
-
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }
