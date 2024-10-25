@@ -64,6 +64,9 @@ class Endboss extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Starts the animation loop for the end boss.
+   */
   animate() {
     setStoppableInterval(() => {
       this.moveToCharacter(world.character);
@@ -71,6 +74,9 @@ class Endboss extends MovableObject {
     }, 120);
   }
 
+  /**
+   * Handles the animation state based on the end boss's current status.
+   */
   handleAnimation() {
     if (this.isDead) {
       this.playAnimation(this.IMAGES_DEAD);
@@ -85,18 +91,32 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Sets the visibility of the end boss's status bar.
+   * @param {boolean} visible - Whether the status bar should be visible.
+   */
   setStatusbarVisibility(visible) {
     this.statusbarVisible = visible;
   }
 
+  /**
+   * Makes the status bar visible.
+   */
   showStatusbar() {
     this.setStatusbarVisibility(true);
   }
 
+  /**
+   * Hides the status bar.
+   */
   hideStatusbar() {
     this.setStatusbarVisibility(false);
   }
 
+  /**
+   * Moves the end boss towards the character if certain conditions are met.
+   * @param {Character} character - The character the end boss is targeting.
+   */
   moveToCharacter(character) {
     if (this.isDead || this.isHurt || this.isAttacking) return;
 
@@ -110,11 +130,18 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Starts following the character and shows the status bar.
+   */
   startFollowing() {
     this.isFollowing = true;
     this.showStatusbar();
   }
 
+  /**
+   * Follows the character based on the distance to the character.
+   * @param {number} distanceToCharacter - The distance to the character.
+   */
   followCharacter(distanceToCharacter) {
     this.isWalking = true;
     if (distanceToCharacter > 0) {
@@ -130,6 +157,9 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Initiates an attack by the end boss.
+   */
   attack() {
     if (this.isAttacking) return;
 
@@ -145,12 +175,18 @@ class Endboss extends MovableObject {
     }, 500);
   }
 
+  /**
+   * Checks for collision with the character and applies damage if necessary.
+   */
   checkCharacterCollision() {
     if (this.isColliding(world.character)) {
       world.character.hitFromEndboss(19);
     }
   }
 
+  /**
+   * Shows the hurt animation when the end boss takes damage.
+   */
   showHurtAnimation() {
     if (this.hurtTimeout) {
       clearTimeout(this.hurtTimeout);
@@ -163,6 +199,9 @@ class Endboss extends MovableObject {
     this.hurtTimeout = setTimeout(() => this.endHurtAnimation(), 500);
   }
 
+  /**
+   * Ends the hurt animation and returns to walking state if not dead.
+   */
   endHurtAnimation() {
     this.isHurt = false;
     if (!this.isDead) {
@@ -170,12 +209,19 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Handles the death of the end boss, changing its state and animation.
+   */
   dieEndboss() {
     this.isDead = true;
     this.y = 100;
     this.playAnimation(this.IMAGES_DEAD);
   }
 
+  /**
+   * Checks if the end boss is dead based on its energy level.
+   * @returns {boolean} True if the end boss is dead, false otherwise.
+   */
   isEndbossDead() {
     return this.energy <= 0;
   }

@@ -245,6 +245,12 @@ canvas {
     max-height: 80%;
 }
 
+@media only screen and (max-width: 1400px) {
+    .hud {
+        display: flex;
+    }
+}
+
 @media only screen and (max-width: 950px) {
     canvas {
         display: block;
@@ -261,18 +267,15 @@ canvas {
     }
 
     .lose {
-        height: 100vh;
         width: 100%;
     }
 
     .lost-img {
-        height: 99vh;
+        height: 100%;
         border-radius: 0;
     }
 
     .win {
-        height: 100vh;
-        width: 100%;
         border-radius: 0;
     }
 

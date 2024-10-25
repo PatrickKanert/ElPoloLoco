@@ -20,6 +20,10 @@ class CoinStatusBar extends DrawableObject {
     this.setPercentage(0);
   }
 
+  /**
+   * Sets the percentage of coins collected.
+   * @param {number} coins - The number of coins collected.
+   */
   setPercentage(coins) {
     this.percentage = coins * 10;
     this.percentage = Math.min(this.percentage, 100);
@@ -27,6 +31,10 @@ class CoinStatusBar extends DrawableObject {
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Resolves the index of the image based on the current percentage.
+   * @returns {number} The index of the corresponding image for the current percentage.
+   */
   resolveImageIndex() {
     if (this.percentage >= 100) {
       return 5;

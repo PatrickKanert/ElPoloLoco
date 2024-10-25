@@ -11,6 +11,13 @@ class Keyboard {
     this.bindButtonPressEvents();
   }
 
+  /**
+   * Binds keyboard events for key down and key up actions.
+   * - Arrow Right (39) sets RIGHT to true.
+   * - Arrow Left (37) sets LEFT to true.
+   * - Spacebar (32) sets SPACE to true.
+   * - D key (68) sets D to true.
+   */
   bindKeyPressEvents() {
     window.addEventListener("keydown", (e) => {
       if (e.keyCode === 39) {
@@ -49,6 +56,13 @@ class Keyboard {
     });
   }
 
+  /**
+   * Binds touch events to the on-screen buttons for mobile controls.
+   * - btnLeft sets LEFT to true on touch start and false on touch end.
+   * - btnRight sets RIGHT to true on touch start and false on touch end.
+   * - btnJump sets SPACE to true on touch start and false on touch end.
+   * - btnThrow sets D to true on touch start and false on touch end.
+   */
   bindButtonPressEvents() {
     document.getElementById("btnLeft").addEventListener("touchstart", (e) => {
       e.preventDefault();

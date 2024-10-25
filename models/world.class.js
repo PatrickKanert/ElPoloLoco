@@ -27,15 +27,25 @@ class World {
     this.run();
   }
 
+  /**
+   * Sets the level for the world.
+   * @param {Object} level - The level object to be set.
+   */
   setLevel(level) {
     this.level = level;
   }
 
+  /**
+   * Initializes the world, setting character properties and level.
+   */
   setWorld() {
     this.character.world = this;
     this.level = level1;
   }
 
+  /**
+   * Starts the game loop.
+   */
   run() {
     this.gameInterval = setStoppableInterval(() => {
       if (!this.gameOver) {
@@ -45,6 +55,9 @@ class World {
     }, 1000 / 60);
   }
 
+  /**
+   * Checks for thrown objects and handles their actions.
+   */
   checkThrowObjects() {
     if (this.keyboard.D && !this.dKeyPressed && this.character.bottles > 0) {
       this.throwBottle();
@@ -56,6 +69,9 @@ class World {
     }
   }
 
+  /**
+   * Handles the throwing of a bottle.
+   */
   throwBottle() {
     this.dKeyPressed = true;
     let bottle = new ThrowableObject(
@@ -67,12 +83,18 @@ class World {
     this.bottleStatusBar.setPercentage(this.character.bottles);
   }
 
+  /**
+   * Resets the D key press status after a delay.
+   */
   scheduleKeyReset() {
     setTimeout(() => {
       this.dKeyPressed = false;
     }, 1500);
   }
 
+  /**
+   * Checks for collisions between game objects.
+   */
   checkCollisions() {
     if (this.level) {
       this.checkCharacterEnemyCollision();
@@ -83,6 +105,9 @@ class World {
     }
   }
 
+  /**
+   * Checks for collisions with collectible items.
+   */
   checkCollectibleCollision() {
     const maxBottles = 10;
 
@@ -97,12 +122,23 @@ class World {
     });
   }
 
+  /**
+   * Collects a coin and updates the status bar.
+   * @param {Coin} collectible - The coin to collect.
+   * @param {number} index - The index of the coin in the collectibles array.
+   */
   collectCoin(collectible, index) {
     this.character.collectCoin();
     this.coinStatusbar.setPercentage(this.character.coins);
     this.level.collectibles.splice(index, 1);
   }
 
+  /**
+   * Collects a bottle and updates the status bar.
+   * @param {Bottle} collectible - The bottle to collect.
+   * @param {number} index - The index of the bottle in the collectibles array.
+   * @param {number} maxBottles - The maximum number of bottles the character can hold.
+   */
   collectBottle(collectible, index, maxBottles) {
     if (this.character.bottles < maxBottles) {
       this.character.collectBottle();
@@ -111,6 +147,9 @@ class World {
     }
   }
 
+  /**
+   * Checks for collisions between thrown bottles and enemies.
+   */
   checkBottleEnemyCollision() {
     this.throwableObjects.forEach((bottle, bottleIndex) => {
       this.level.enemies.forEach((enemy) => {
@@ -122,6 +161,9 @@ class World {
     });
   }
 
+  /**
+   * Checks for collisions between thrown bottles and the end boss.
+   */
   checkBottleEndbossCollision() {
     this.throwableObjects.forEach((bottle, bottleIndex) => {
       if (bottle.isColliding(this.endboss)) {
@@ -131,6 +173,9 @@ class World {
     });
   }
 
+  /**
+   * Checks for collisions between the character and enemies.
+   */
   checkCharacterEnemyCollision() {
     this.level.enemies.forEach((enemy) => {
       if (enemy.isDead) {
@@ -146,6 +191,10 @@ class World {
     });
   }
 
+  /**
+   * Displays the win or lose screen based on the game outcome.
+   * @param {boolean} isWin - Indicates if the player has won.
+   */
   displayWinLoseScreen(isWin) {
     document.getElementById("winOrLoseScreen").classList.remove("d-none");
     document
@@ -156,6 +205,9 @@ class World {
       : htmlLose();
   }
 
+  /**
+   * Checks for win or lose conditions.
+   */
   winLose() {
     let gameEnded = false;
 
@@ -170,6 +222,10 @@ class World {
     }, 500);
   }
 
+  /**
+   * Checks the conditions for winning or losing the game.
+   * @param {Function} showScreen - The function to call to display the win/lose screen.
+   */
   checkGameEndConditions(showScreen) {
     if (this.character.energy <= 0) {
       this.handleGameLoss(showScreen);
@@ -178,12 +234,20 @@ class World {
     }
   }
 
+  /**
+   * Handles the game loss scenario.
+   * @param {Function} showScreen - The function to call to display the win/lose screen.
+   */
   handleGameLoss(showScreen) {
     showScreen(false);
     stopGame();
     audioManager.playSound("lose");
   }
 
+  /**
+   * Handles the game win scenario.
+   * @param {Function} showScreen - The function to call to display the win/lose screen.
+   */
   handleGameWin(showScreen) {
     setTimeout(() => {
       showScreen(true);
@@ -192,6 +256,9 @@ class World {
     }, 1000);
   }
 
+  /**
+   * Draws the game world and all its objects on the canvas.
+   */
   draw() {
     if (this.gameOver) return;
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -206,12 +273,18 @@ class World {
     this.continueDrawing();
   }
 
+  /**
+   * Draws background objects on the canvas.
+   */
   drawBackgroundObjects() {
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.backgroundObjects);
     this.ctx.translate(-this.camera_x, 0);
   }
 
+  /**
+   * Draws level objects on the canvas.
+   */
   drawLevelObjects() {
     this.ctx.translate(this.camera_x, 0);
     this.addToMap(this.character);
@@ -223,6 +296,9 @@ class World {
     this.ctx.translate(-this.camera_x, 0);
   }
 
+  /**
+   * Continues the drawing loop using requestAnimationFrame.
+   */
   continueDrawing() {
     if (!this.gameOver) {
       let self = this;
@@ -232,6 +308,9 @@ class World {
     }
   }
 
+  /**
+   * Draws the status bars on the canvas.
+   */
   drawStatusBars() {
     if (this.endboss.statusbarVisible) {
       this.addToMap(this.endbossStatusBar);
@@ -241,12 +320,20 @@ class World {
     this.addToMap(this.bottleStatusBar);
   }
 
+  /**
+   * Adds multiple objects to the map.
+   * @param {Array} objects - The objects to be added.
+   */
   addObjectsToMap(objects) {
     objects.forEach((o) => {
       this.addToMap(o);
     });
   }
 
+  /**
+   * Adds a movable object to the map.
+   * @param {MovableObject} mo - The movable object to be added.
+   */
   addToMap(mo) {
     if (mo.otherDirection) {
       this.flipImage(mo);
@@ -258,6 +345,10 @@ class World {
     }
   }
 
+  /**
+   * Flips the image of a movable object for drawing.
+   * @param {MovableObject} mo - The movable object to flip.
+   */
   flipImage(mo) {
     this.ctx.save();
     this.ctx.translate(mo.width, 0);
@@ -265,6 +356,10 @@ class World {
     mo.x = mo.x * -1;
   }
 
+  /**
+   * Restores the canvas state after flipping an image.
+   * @param {MovableObject} mo - The movable object that was flipped.
+   */
   flipImageBack(mo) {
     mo.x = mo.x * -1;
     this.ctx.restore();

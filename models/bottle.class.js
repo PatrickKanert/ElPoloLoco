@@ -32,6 +32,10 @@ class Bottle extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Animates the bottle by cycling through the ground images at a set interval.
+   * This method continuously updates the bottle's appearance to create an animation effect.
+   */
   animate() {
     setInterval(() => {
       this.playAnimation(this.IMAGES_BOTTLE);

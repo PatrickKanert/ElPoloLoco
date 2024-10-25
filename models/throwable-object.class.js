@@ -26,6 +26,9 @@ class ThrowableObject extends MovableObject {
     this.throw();
   }
 
+  /**
+   * Initiates the throwing action of the bottle.
+   */
   throw() {
     this.speedY = 30;
     this.applyGravityForBottle();
@@ -41,6 +44,9 @@ class ThrowableObject extends MovableObject {
     }, 1000 / 60);
   }
 
+  /**
+   * Applies gravity to the bottle during its flight.
+   */
   applyGravityForBottle() {
     this.gravityInterval = setInterval(() => {
       if (this.isBottleAboveGround() || this.speedY > 0) {
@@ -52,10 +58,17 @@ class ThrowableObject extends MovableObject {
     }, 1000 / 25);
   }
 
+  /**
+   * Checks if the bottle is above the ground.
+   * @returns {boolean} - True if the bottle is above ground; otherwise, false.
+   */
   isBottleAboveGround() {
     return this.y < this.groundLevel;
   }
 
+  /**
+   * Handles the landing of the bottle when it hits the ground.
+   */
   bottleLand() {
     clearInterval(this.rotationInterval);
     clearInterval(this.gravityInterval);

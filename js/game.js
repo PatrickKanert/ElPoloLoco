@@ -4,6 +4,9 @@ let keyboardInfoVisible = false;
 let intervalIds = [];
 audioManager = new AudioManager();
 
+/**
+ * Initializes the game, sets up the canvas and the game world.
+ */
 function init() {
   initLevel();
   checkScreenOrientation();
@@ -12,26 +15,45 @@ function init() {
   world.setLevel(level1);
 }
 
+/**
+ * Sets up an interval that can be stopped later by storing its ID.
+ *
+ * @param {Function} fn - The function to execute at each interval.
+ * @param {number} time - The interval time in milliseconds.
+ */
 function setStoppableInterval(fn, time) {
   let id = setInterval(fn, time);
   intervalIds.push(id);
 }
 
+/**
+ * Stops all running intervals by clearing each stored interval ID.
+ */
 function stopGame() {
   intervalIds.forEach(clearInterval);
 }
 
+/**
+ * Resets the game state, clearing all intervals and resetting the world.
+ */
 function resetGame() {
   stopGame();
   world = null;
   intervalIds = [];
 }
 
+/**
+ * Resets the game and navigates to the homepage.
+ */
 function goHome() {
   resetGame();
   window.location.href = "index.html";
 }
 
+/**
+ * Starts the game by initializing the world and keyboard,
+ * updating the UI for game start, and hiding the start screen.
+ */
 function startGame() {
   resetGame();
   init();
@@ -39,10 +61,12 @@ function startGame() {
   world.setLevel(level1);
 
   updateUIForGameStart();
-
   hideStartScreenAfterDelay();
 }
 
+/**
+ * Updates the user interface to show game elements when the game starts.
+ */
 function updateUIForGameStart() {
   document.getElementById("winOrLoseScreen").classList.remove("d-none");
   document.getElementById("startScreen").classList.add("fade-out");
@@ -53,25 +77,32 @@ function updateUIForGameStart() {
   document.getElementById("helpMenu").classList.add("help-menu-in-game");
 }
 
+/**
+ * Hides the start screen after a delay of 1 second.
+ */
 function hideStartScreenAfterDelay() {
   setTimeout(function () {
     document.getElementById("startScreen").classList.add("d-none");
   }, 1000);
 }
 
+/**
+ * Restarts the game, resets the state, and initializes the world and keyboard.
+ */
 function restartGame() {
   resetGame();
   init();
   keyboard = new Keyboard();
   world.setLevel(level1);
 
-  document.getElementById("winOrLoseScreen");
-
-  winOrLoseScreen.classList.add("d-none");
+  document.getElementById("winOrLoseScreen").classList.add("d-none");
 
   setTimeout(function () {}, 1000);
 }
 
+/**
+ * Toggles the visibility of keyboard information in the UI.
+ */
 function toggleKeyboardInfo() {
   if (keyboardInfoVisible) {
     document.getElementById("info").classList.remove("d-none");
@@ -88,22 +119,34 @@ function toggleKeyboardInfo() {
   keyboardInfoVisible = !keyboardInfoVisible;
 }
 
+/**
+ * Toggles the sound on or off using the AudioManager.
+ */
 function toggleSound() {
   audioManager.toggleSoundMute();
   updateSoundIcons();
 }
 
+/**
+ * Toggles the music on or off using the AudioManager.
+ */
 function toggleMusic() {
   audioManager.toggleMusicMute();
   updateMusicIcons();
 }
 
+/**
+ * Updates the sound icons in the UI based on the current sound state.
+ */
 function updateSoundIcons() {
   const isMuted = audioManager.isSoundMuted;
   document.getElementById("soundOffIcon").classList.toggle("d-none", !isMuted);
   document.getElementById("soundOnIcon").classList.toggle("d-none", isMuted);
 }
 
+/**
+ * Updates the music icons in the UI based on the current music state.
+ */
 function updateMusicIcons() {
   const isMusicMuted = audioManager.isMusicMuted;
   document
@@ -114,8 +157,12 @@ function updateMusicIcons() {
     .classList.toggle("d-none", isMusicMuted);
 }
 
+/**
+ * Checks the screen orientation and updates the UI to prompt the user
+ * to rotate the screen if the orientation is not optimal.
+ */
 function checkScreenOrientation() {
-  if (window.innerWidth < 950 && window.innerHeight > 800) {
+  if (window.innerWidth < 950 && window.innerHeight > 600) {
     document.getElementById("rotateScreen").classList.remove("d-none");
     document.getElementById("rotateScreen").style.display = "flex";
     document.getElementById("content").classList.add("d-none");
@@ -125,12 +172,22 @@ function checkScreenOrientation() {
   }
 }
 
+/**
+ * Initializes the game once the DOM content is fully loaded and sets up
+ * the event listener to check screen orientation on window resize.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   keyboard = new Keyboard();
   init();
   window.addEventListener("resize", checkScreenOrientation);
 });
 
+/**
+ * Prevents the default behavior for the space bar key to avoid
+ * scrolling when used as a game control.
+ *
+ * @param {KeyboardEvent} event - The keydown event.
+ */
 document.addEventListener("keydown", function (event) {
   if (event.key === " ") {
     event.preventDefault();

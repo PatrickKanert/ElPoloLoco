@@ -1,3 +1,6 @@
+/**
+ * Manages audio playback for the game, including sound effects and background music.
+ */
 class AudioManager {
   constructor() {
     this.sounds = {
@@ -26,6 +29,11 @@ class AudioManager {
     this.setVolume(this.globalVolume);
   }
 
+  /**
+   * Plays a sound effect.
+   *
+   * @param {string} soundName - The name of the sound to play.
+   */
   playSound(soundName) {
     if (!this.isSoundMuted && this.sounds[soundName]) {
       this.sounds[soundName].volume = this.globalVolume;
@@ -35,12 +43,17 @@ class AudioManager {
       ) {
         this.sounds[soundName].currentTime = 0;
         this.sounds[soundName].play().catch((err) => {
-          console.error(`Fehler beim Abspielen von ${soundName}:`, err);
+          console.error(`Error playing ${soundName}:`, err);
         });
       }
     }
   }
 
+  /**
+   * Stops a playing sound effect and resets it.
+   *
+   * @param {string} soundName - The name of the sound to stop.
+   */
   stopSound(soundName) {
     if (this.sounds[soundName]) {
       this.sounds[soundName].pause();
@@ -48,6 +61,9 @@ class AudioManager {
     }
   }
 
+  /**
+   * Plays the background music.
+   */
   playMusic() {
     if (!this.isMusicMuted) {
       this.music.playSound.currentTime = 0;
@@ -55,11 +71,17 @@ class AudioManager {
     }
   }
 
+  /**
+   * Stops the background music and resets it.
+   */
   stopMusic() {
     this.music.playSound.pause();
     this.music.playSound.currentTime = 0;
   }
 
+  /**
+   * Toggles the mute state for sound effects.
+   */
   toggleSoundMute() {
     this.isSoundMuted = !this.isSoundMuted;
 
@@ -68,6 +90,9 @@ class AudioManager {
     }
   }
 
+  /**
+   * Toggles the mute state for background music.
+   */
   toggleMusicMute() {
     this.isMusicMuted = !this.isMusicMuted;
     this.music.playSound.muted = this.isMusicMuted;
@@ -76,10 +101,20 @@ class AudioManager {
     }
   }
 
+  /**
+   * Sets the volume for background music.
+   *
+   * @param {number} volume - The volume level for music (0.0 - 1.0).
+   */
   setMusicVolume(volume) {
     this.music.playSound.volume = volume;
   }
 
+  /**
+   * Sets the global volume for all sound effects.
+   *
+   * @param {number} volume - The global volume level (0.0 - 1.0).
+   */
   setVolume(volume) {
     this.globalVolume = volume;
     for (const sound in this.sounds) {
@@ -87,6 +122,12 @@ class AudioManager {
     }
   }
 
+  /**
+   * Sets the volume for a specific sound effect.
+   *
+   * @param {string} soundName - The name of the sound.
+   * @param {number} volume - The volume level for the sound (0.0 - 1.0).
+   */
   setSoundVolume(soundName, volume) {
     if (this.sounds[soundName]) {
       this.sounds[soundName].volume = volume;

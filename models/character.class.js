@@ -68,6 +68,9 @@ class Character extends MovableObject {
     "img/2_character_pepe/5_dead/D-57.png",
   ];
 
+  /**
+   * Creates an instance of Character.
+   */
   constructor() {
     super().loadImage(this.IMAGES_IDLE[0]);
     this.loadImages(this.IMAGES_IDLE);
@@ -80,11 +83,17 @@ class Character extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Starts the animation intervals for movement and character animation.
+   */
   animate() {
     setStoppableInterval(() => this.handleMovement(), 1000 / 60);
     setStoppableInterval(() => this.handleAnimation(), 100);
   }
 
+  /**
+   * Handles the character's movement logic.
+   */
   handleMovement() {
     if (this.world.level && this.world.level.level_end_x) {
       this.handleHorizontalMovement();
@@ -94,6 +103,9 @@ class Character extends MovableObject {
     this.world.camera_x = -this.x + 100;
   }
 
+  /**
+   * Handles horizontal movement based on keyboard input.
+   */
   handleHorizontalMovement() {
     const isMovingRight =
       this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
@@ -111,6 +123,10 @@ class Character extends MovableObject {
     this.manageRunningSound(isMovingRight || isMovingLeft);
   }
 
+  /**
+   * Manages the sound of the character's running action.
+   * @param {boolean} isMoving - Indicates whether the character is moving.
+   */
   manageRunningSound(isMoving) {
     if (isMoving) {
       if (!this.isAboveGround()) {
@@ -121,6 +137,9 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Handles the jumping logic for the character.
+   */
   handleJump() {
     if (this.world.keyboard.SPACE && !this.isAboveGround()) {
       this.jump();
@@ -131,6 +150,9 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Handles character animations based on the character's state.
+   */
   handleAnimation() {
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD);
@@ -144,6 +166,9 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Handles the idle animation of the character.
+   */
   handleIdleAnimation() {
     const timeSinceLastMove = Date.now() - this.lastMoveTime;
 
@@ -154,16 +179,26 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Handles the walking animation when the character is moving.
+   */
   handleWalkingAnimation() {
     if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
       this.playAnimation(this.IMAGES_WALKING);
     }
   }
 
+  /**
+   * Updates the last move time to the current time.
+   */
   updateLastMoveTime() {
     this.lastMoveTime = Date.now();
   }
 
+  /**
+   * Collects an item of the specified type.
+   * @param {string} type - The type of item collected (e.g., "bottle", "coin").
+   */
   collectItem(type) {
     if (type === "bottle") {
       this.bottles++;

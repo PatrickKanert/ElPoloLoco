@@ -9,15 +9,27 @@ class DrawableObject {
   groundLevel = 360;
   debugMode = false;
 
+  /**
+   * Loads an image from the specified path.
+   * @param {string} path - The path to the image to load.
+   */
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
   }
 
+  /**
+   * Draws the object on the provided canvas context.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context to draw on.
+   */
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
+  /**
+   * Draws a frame around the object if debug mode is enabled.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context to draw on.
+   */
   drawFrame(ctx) {
     if (this.shouldDrawFrame()) {
       const { offsetX, offsetY, smallerWidth, smallerHeight } =
@@ -31,6 +43,10 @@ class DrawableObject {
     }
   }
 
+  /**
+   * Determines whether to draw the frame based on debug mode and object type.
+   * @returns {boolean} True if the frame should be drawn; otherwise, false.
+   */
   shouldDrawFrame() {
     return (
       this.debugMode &&
@@ -43,6 +59,10 @@ class DrawableObject {
     );
   }
 
+  /**
+   * Calculates the frame size based on the type of object.
+   * @returns {{offsetX: number, offsetY: number, smallerWidth: number, smallerHeight: number}} The calculated frame size.
+   */
   calculateFrameSize() {
     if (this instanceof Coin) {
       return this.calculateCoinFrameSize();
@@ -57,6 +77,10 @@ class DrawableObject {
     }
   }
 
+  /**
+   * Calculates the frame size for coins.
+   * @returns {{offsetX: number, offsetY: number, smallerWidth: number, smallerHeight: number}} The calculated frame size for coins.
+   */
   calculateCoinFrameSize() {
     const offsetX = 18;
     const offsetY = 18;
@@ -70,6 +94,10 @@ class DrawableObject {
     };
   }
 
+  /**
+   * Calculates the frame size for bottles.
+   * @returns {{offsetX: number, offsetY: number, smallerWidth: number, smallerHeight: number}} The calculated frame size for bottles.
+   */
   calculateBottleFrameSize() {
     const offsetX = 10;
     const offsetY = 10;
@@ -83,6 +111,10 @@ class DrawableObject {
     };
   }
 
+  /**
+   * Calculates the frame size for characters.
+   * @returns {{offsetX: number, offsetY: number, smallerWidth: number, smallerHeight: number}} The calculated frame size for characters.
+   */
   calculateCharacterFrameSize() {
     const offsetX = 10;
     const offsetY = 70;
@@ -96,6 +128,10 @@ class DrawableObject {
     };
   }
 
+  /**
+   * Calculates the frame size for end bosses.
+   * @returns {{offsetX: number, offsetY: number, smallerWidth: number, smallerHeight: number}} The calculated frame size for end bosses.
+   */
   calculateEndbossFrameSize() {
     const offsetX = 0;
     const offsetY = 60;
@@ -109,6 +145,10 @@ class DrawableObject {
     };
   }
 
+  /**
+   * Calculates the default frame size.
+   * @returns {{offsetX: number, offsetY: number, smallerWidth: number, smallerHeight: number}} The default frame size.
+   */
   calculateDefaultFrameSize() {
     return {
       offsetX: 0,
@@ -118,6 +158,10 @@ class DrawableObject {
     };
   }
 
+  /**
+   * Loads multiple images from an array of paths into the image cache.
+   * @param {string[]} arr - An array of image paths to load.
+   */
   loadImages(arr) {
     arr.forEach((path) => {
       let img = new Image();

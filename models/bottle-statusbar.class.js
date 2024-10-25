@@ -20,6 +20,12 @@ class BottleStatusBar extends DrawableObject {
     this.setPercentage(0);
   }
 
+  /**
+   * Sets the percentage of bottles collected and updates the displayed image accordingly.
+   * Limits the maximum percentage to 100%.
+   *
+   * @param {number} bottles - The number of bottles collected by the player.
+   */
   setPercentage(bottles) {
     this.percentage = bottles * 10;
     this.percentage = Math.min(this.percentage, 100);
@@ -27,6 +33,11 @@ class BottleStatusBar extends DrawableObject {
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Determines the image index to display based on the current percentage.
+   *
+   * @returns {number} The index of the image that corresponds to the current percentage.
+   */
   resolveImageIndex() {
     if (this.percentage >= 100) {
       return 5;
