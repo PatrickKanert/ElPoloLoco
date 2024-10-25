@@ -63,17 +63,36 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Checks for a collision with another movable object.
+   * Checks if this object is colliding with another movable object.
    * @param {MovableObject} mo - The other movable object to check for collision.
-   * @returns {boolean} True if there is a collision, otherwise false.
+   * @returns {boolean} True if there is a collision; otherwise, false.
    */
   isColliding(mo) {
+    const bounds1 = this.getCollisionBounds();
+    const bounds2 = mo.getCollisionBounds();
+
     return (
-      this.x + this.width > mo.x &&
-      this.y + this.height > mo.y &&
-      this.x < mo.x + mo.width &&
-      this.y < mo.y + mo.height
+      bounds1.right > bounds2.left &&
+      bounds1.bottom > bounds2.top &&
+      bounds1.left < bounds2.right &&
+      bounds1.top < bounds2.bottom
     );
+  }
+
+  /**
+   * Calculates and returns the collision boundaries of the object
+   * based on its position and frame size.
+   * @returns {{left: number, right: number, top: number, bottom: number}} An object representing the left, right, top, and bottom boundaries for collision detection.
+   */
+  getCollisionBounds() {
+    const { offsetX, offsetY, smallerWidth, smallerHeight } =
+      this.calculateFrameSize();
+    return {
+      left: this.x + offsetX,
+      right: this.x + offsetX + smallerWidth,
+      top: this.y + offsetY,
+      bottom: this.y + offsetY + smallerHeight,
+    };
   }
 
   /**
