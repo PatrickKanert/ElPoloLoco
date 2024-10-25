@@ -18,6 +18,8 @@ h1 {
 }
 
 div {
+    display: flex;
+    flex-direction: row-reverse;
     max-width: 800px;
     margin: 30px auto;
     padding: 20px;
@@ -39,13 +41,11 @@ p {
 }
 
 .btn {
-    position: absolute;
-    top: 30px;
-    right: 120px;
+    display: flex;
     margin: 16px;
     border-radius: 5px;
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(206, 206, 206, 0.4);
     text-decoration: none;
     transition: transform 100ms ease-in, background 100ms ease-in;
     cursor: pointer;
