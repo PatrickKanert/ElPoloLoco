@@ -3,7 +3,7 @@ class Endboss extends MovableObject {
   width = 250;
   y = 55;
   energy = 100;
-  speed = 20;
+  speed = 25;
   hurtTimeout = null;
   isDead = false;
   isHurt = false;
@@ -79,15 +79,15 @@ class Endboss extends MovableObject {
    */
   handleAnimation() {
     if (this.isDead) {
-      this.playAnimation(this.IMAGES_DEAD);
+      this.playAnimation(this.IMAGES_DEAD, 1);
     } else if (this.isHurt) {
-      this.playAnimation(this.IMAGES_HURT);
+      this.playAnimation(this.IMAGES_HURT, 1);
     } else if (this.isAttacking) {
-      this.playAnimation(this.IMAGES_ATTACK);
+      this.playAnimation(this.IMAGES_ATTACK, 1);
     } else if (this.isWalking) {
-      this.playAnimation(this.IMAGES_WALKING);
+      this.playAnimation(this.IMAGES_WALKING, 1);
     } else {
-      this.playAnimation(this.IMAGES_WATCHING);
+      this.playAnimation(this.IMAGES_WATCHING, 1);
     }
   }
 
@@ -164,7 +164,7 @@ class Endboss extends MovableObject {
     if (this.isAttacking) return;
 
     this.isAttacking = true;
-    this.playAnimation(this.IMAGES_ATTACK);
+    this.playAnimation(this.IMAGES_ATTACK, 1);
     this.checkCharacterCollision();
 
     setTimeout(() => {
@@ -193,7 +193,7 @@ class Endboss extends MovableObject {
     }
 
     this.isHurt = true;
-    this.playAnimation(this.IMAGES_HURT);
+    this.playAnimation(this.IMAGES_HURT, 1);
     audioManager.playSound("chicken");
 
     this.hurtTimeout = setTimeout(() => this.endHurtAnimation(), 500);
@@ -215,7 +215,7 @@ class Endboss extends MovableObject {
   dieEndboss() {
     this.isDead = true;
     this.y = 100;
-    this.playAnimation(this.IMAGES_DEAD);
+    this.playAnimation(this.IMAGES_DEAD, 1);
   }
 
   /**

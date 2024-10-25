@@ -156,9 +156,9 @@ class Character extends MovableObject {
    */
   handleAnimation() {
     if (this.isDead()) {
-      this.playAnimation(this.IMAGES_DEAD);
+      this.playAnimation(this.IMAGES_DEAD, 1);
     } else if (this.isHurt()) {
-      this.playAnimation(this.IMAGES_HURT);
+      this.playAnimation(this.IMAGES_HURT, 1);
     } else if (this.isAboveGround()) {
       this.playAnimation(this.IMAGES_JUMPING);
     } else {
@@ -175,9 +175,9 @@ class Character extends MovableObject {
     const timeSinceLastMove = Date.now() - this.lastMoveTime;
 
     if (timeSinceLastMove >= this.idleTimeout) {
-      this.playAnimation(this.IMAGES_LONG_IDLE);
+      this.playAnimation(this.IMAGES_LONG_IDLE, 1);
     } else {
-      this.playAnimation(this.IMAGES_IDLE);
+      this.playAnimation(this.IMAGES_IDLE, 1);
     }
   }
 
@@ -186,7 +186,7 @@ class Character extends MovableObject {
    */
   handleWalkingAnimation() {
     if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-      this.playAnimation(this.IMAGES_WALKING);
+      this.playAnimation(this.IMAGES_WALKING, 1);
     }
   }
 
