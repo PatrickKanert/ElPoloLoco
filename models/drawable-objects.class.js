@@ -7,7 +7,7 @@ class DrawableObject {
   height = 200;
   width = 100;
   groundLevel = 360;
-  debugMode = true;
+  debugMode = false;
 
   /**
    * Loads an image from the specified path.
