@@ -2,7 +2,8 @@ class Character extends MovableObject {
   speed = 8;
   y = 250;
   lastMoveTime = Date.now();
-  idleTimeout = 10000;
+  idleTimeout = 5000;
+  isJumping = false;
   world;
 
   IMAGES_IDLE = [
@@ -81,6 +82,8 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_DEAD);
     this.applyGravity();
     this.animate();
+    this.animationInterval = null;
+    this.currentImageIndex = 0;
   }
 
   /**
@@ -141,12 +144,10 @@ class Character extends MovableObject {
    * Handles the jumping logic for the character.
    */
   handleJump() {
-    if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+    if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isJumping) {
+      this.isJumping = true;
       this.jump();
       this.updateLastMoveTime();
-    }
-    if (this.isAboveGround()) {
-      audioManager.stopSound("running");
     }
   }
 
@@ -161,6 +162,7 @@ class Character extends MovableObject {
     } else if (this.isAboveGround()) {
       this.playAnimation(this.IMAGES_JUMPING);
     } else {
+      this.isJumping = false;
       this.handleIdleAnimation();
       this.handleWalkingAnimation();
     }

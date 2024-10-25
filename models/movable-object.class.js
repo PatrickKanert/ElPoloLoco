@@ -148,11 +148,11 @@ class MovableObject extends DrawableObject {
    * Plays an animation using the given array of image paths.
    * @param {string[]} images - An array of image paths for the animation.
    */
-  playAnimation(images) {
+  playAnimation(images, frameRate = 2) {
     let i = this.currentImage % images.length;
     let path = images[i];
     this.img = this.imageCache[path];
-    this.currentImage++;
+    this.currentImage += frameRate;
   }
 
   /**

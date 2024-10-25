@@ -3,7 +3,7 @@ class Endboss extends MovableObject {
   width = 250;
   y = 55;
   energy = 100;
-  speed = 10;
+  speed = 20;
   hurtTimeout = null;
   isDead = false;
   isHurt = false;
@@ -71,7 +71,7 @@ class Endboss extends MovableObject {
     setStoppableInterval(() => {
       this.moveToCharacter(world.character);
       this.handleAnimation();
-    }, 120);
+    }, 150);
   }
 
   /**
@@ -180,7 +180,7 @@ class Endboss extends MovableObject {
    */
   checkCharacterCollision() {
     if (this.isColliding(world.character)) {
-      world.character.hitFromEndboss(19);
+      world.character.hitFromEndboss(25);
     }
   }
 
