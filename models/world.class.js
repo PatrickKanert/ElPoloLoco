@@ -15,6 +15,7 @@ class World {
   dKeyPressed = false;
   gameOver = false;
   gameInterval;
+  lastBottleThrowTime = 0;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -59,9 +60,17 @@ class World {
    * Checks for thrown objects and handles their actions.
    */
   checkThrowObjects() {
-    if (this.keyboard.D && !this.dKeyPressed && this.character.bottles > 0) {
+    const currentTime = Date.now(); // Holen Sie die aktuelle Zeit in Millisekunden
+
+    if (
+      this.keyboard.D &&
+      !this.dKeyPressed &&
+      this.character.bottles > 0 &&
+      currentTime - this.lastBottleThrowTime >= 1500
+    ) {
       this.throwBottle();
       this.scheduleKeyReset();
+      this.lastBottleThrowTime = currentTime;
     }
 
     if (!this.keyboard.D) {

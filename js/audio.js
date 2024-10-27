@@ -21,7 +21,7 @@ class AudioManager {
     this.isMusicMuted = true;
     this.isSoundMuted = true;
     this.musicVolume = 0.05;
-    this.globalVolume = 1.0;
+    this.globalVolume = 0.2;
 
     this.music.playSound.volume = this.musicVolume;
     this.music.playSound.muted = this.isMusicMuted;
